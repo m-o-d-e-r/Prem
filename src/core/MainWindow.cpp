@@ -1,13 +1,19 @@
 #include "MainWindow.h"
 
+#include <iostream>
+#include <string>
+
 #define CTRL_(x) ((x) & 0x1f)
 #define KEY_ENTER 0x157
 
 
 void MainWindow::__setUpCodeEditorWin(int w, int h, int ox, int oy)
 {
-    this->codeEditorWin = newwin(h, w, oy, ox);
-    box(this->codeEditorWin, 0, 0);
+    this->codeEditorWin = newpad(h, w);
+//    this->codeEditorWin = newwin(h, w, oy, ox);
+    scrollok(this->codeEditorWin, TRUE);
+//    box(this->codeEditorWin, 0, 0);
+//    prefresh(this->codeEditorWin, this->scrollValue, 0, 0, 0, w, h);
 }
 
 
@@ -31,17 +37,35 @@ void MainWindow::__setUpStatusbarWin(int w, int h, int ox, int oy)
 }
 
 
-void MainWindow::__updateCodeEditorWin() {wrefresh(this->codeEditorWin);}
+void MainWindow::__updateCodeEditorWin()
+{
+    prefresh(
+        this->codeEditorWin, 0, 0,
+        0, 0,
+        this->globalHeight * 0.9,
+        this->globalWidth * 0.7
+    );
+}
 void MainWindow::__updateUserHitWin() {wrefresh(this->userHintWin);}
 void MainWindow::__updateStatusBarWin() {wrefresh(this->statusBarWin);}
 void MainWindow::__updateAll()
 {
-    wrefresh(this->codeEditorWin);
-    wrefresh(this->userHintWin);
-    wrefresh(this->statusBarWin);
+    __updateCodeEditorWin();
+    __updateUserHitWin();
+    __updateStatusBarWin();
 }
 
 
+bool MainWindow::__isInRange_w(int x)
+{
+    return 0;
+}
+
+
+bool MainWindow::__isInRange_h(int y)
+{
+    return 0;
+}
 
 
 
@@ -99,6 +123,14 @@ void MainWindow::show()
     int key_code;
     KeyType key_type;
 
+    
+/*    for (int i = 0; i < 30; i++)
+    {
+        wprintw(this->codeEditorWin, std::string("Hello\t" + std::to_string(i) + "\n").c_str());
+    }
+    this->__updateCodeEditorWin();*/
+
+
     while (TRUE)
     {
         key_code = wgetch(this->codeEditorWin);
@@ -109,32 +141,45 @@ void MainWindow::show()
         {
             if (key_code == KEY_UP)
             {
-                currentY--;
+                if (currentY - 1 >= 1)
+                {
+                    currentY--;
+//                    wscrl(this->codeEditorWin, 1);
+                }
             } else if (key_code == KEY_DOWN)
             {
-                currentY++;
+                if (currentY + 1 < this->globalHeight * 0.9 - 2)
+                {
+                    currentY++;
+//                    wscrl(this->codeEditorWin, -1);
+                }
             } else if (key_code == KEY_LEFT)
             {
-                currentX--;
+                if (currentX - 1 >= 1)
+                {
+                    currentX--;
+                }
             } else if (key_code == KEY_RIGHT)
             {
-                currentX++;
+                if (currentX + 1 <= this->globalWidth * 0.7 - 2)
+                {
+                    currentX++;
+                }
             }
 
             wmove(this->codeEditorWin, currentY, currentX);
         } else {
             if (key_code == CTRL_('x'))
-                break;
-            
-            if (key_code == KEY_ENTER)
             {
-
+                break;
+            } else {
+                if (currentX + 2 <= this->globalWidth * 0.7 - 1)
+                {
+                    mvwprintw(this->codeEditorWin, currentY, currentX, keyname(key_code));
+                    wmove(this->codeEditorWin, currentY, ++currentX);
+                }
             }
-
-            mvwprintw(this->codeEditorWin, currentY, currentX, keyname(key_code));
-            wmove(this->codeEditorWin, currentY, ++currentX);
-
-            this->__updateCodeEditorWin();
         }
+        this->__updateCodeEditorWin();
     }
 }
