@@ -1,17 +1,22 @@
-#include "MainWindow.h"
+/*#include "MainWindow.h"
 
 #include <iostream>
 #include <string>
 
 #define CTRL_(x) ((x) & 0x1f)
-#define KEY_ENTER 0x157
+//#define KEY_ENTER 0x157
 
 
 void MainWindow::__setUpCodeEditorWin(int w, int h, int ox, int oy)
 {
     this->codeEditorWin = newpad(h, w);
-//    this->codeEditorWin = newwin(h, w, oy, ox);
+
     scrollok(this->codeEditorWin, TRUE);
+    keypad(this->codeEditorWin, TRUE);
+
+    wmove(this->codeEditorWin, 1, 1);
+
+//    this->codeEditorWin = newwin(h, w, oy, ox);
 //    box(this->codeEditorWin, 0, 0);
 //    prefresh(this->codeEditorWin, this->scrollValue, 0, 0, 0, w, h);
 }
@@ -46,7 +51,11 @@ void MainWindow::__updateCodeEditorWin()
         this->globalWidth * 0.7
     );
 }
-void MainWindow::__updateUserHitWin() {wrefresh(this->userHintWin);}
+void MainWindow::__updateUserHitWin() {
+//    wclear(this->userHintWin);
+//    box(this->userHintWin, 0, 0);
+    wrefresh(this->userHintWin);
+}
 void MainWindow::__updateStatusBarWin() {wrefresh(this->statusBarWin);}
 void MainWindow::__updateAll()
 {
@@ -110,11 +119,18 @@ void MainWindow::initializeWindow()
         this->globalHeight * 0.9
     );
 
-    keypad(this->codeEditorWin, TRUE);
-
-    wmove(this->codeEditorWin, 1, 1);
-
     this->__updateAll();
+
+
+    trieObject.insert("Hello man");
+    trieObject.insert("Hello nigga");
+    trieObject.insert("Hehe");
+    trieObject.insert("Himama");
+    trieObject.insert("Himars");
+    trieObject.insert("world");
+
+
+
 }
 
 
@@ -123,13 +139,11 @@ void MainWindow::show()
     int key_code;
     KeyType key_type;
 
-    
-/*    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 30; i++)
     {
         wprintw(this->codeEditorWin, std::string("Hello\t" + std::to_string(i) + "\n").c_str());
     }
-    this->__updateCodeEditorWin();*/
-
+    this->__updateCodeEditorWin();
 
     while (TRUE)
     {
@@ -144,6 +158,12 @@ void MainWindow::show()
                 if (currentY - 1 >= 1)
                 {
                     currentY--;
+                    prefresh(
+                        this->codeEditorWin, 0, 0,
+                        currentY, currentY + 5,
+                        this->globalHeight * 0.9,
+                        this->globalWidth * 0.7
+                    );
 //                    wscrl(this->codeEditorWin, 1);
                 }
             } else if (key_code == KEY_DOWN)
@@ -151,6 +171,13 @@ void MainWindow::show()
                 if (currentY + 1 < this->globalHeight * 0.9 - 2)
                 {
                     currentY++;
+
+                    prefresh(
+                        this->codeEditorWin, 0, 0,
+                        currentY, currentY + 5,
+                        this->globalHeight * 0.9,
+                        this->globalWidth * 0.7
+                    );
 //                    wscrl(this->codeEditorWin, -1);
                 }
             } else if (key_code == KEY_LEFT)
@@ -175,6 +202,7 @@ void MainWindow::show()
             } else {
                 if (currentX + 2 <= this->globalWidth * 0.7 - 1)
                 {
+
                     mvwprintw(this->codeEditorWin, currentY, currentX, keyname(key_code));
                     wmove(this->codeEditorWin, currentY, ++currentX);
                 }
@@ -183,3 +211,4 @@ void MainWindow::show()
         this->__updateCodeEditorWin();
     }
 }
+*/
