@@ -1,2 +1,8 @@
 # ninja log v5
-9	621	1674417914527020100	CMakeFiles/HelloWorld.dir/test.cpp.o	8dfaa7d8ef7b9ee5
+33	1708	1674420071335428400	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	3f64f10f922f6999
+63	1313	1674420071363997800	CMakeFiles/prem.dir/src/libs/clip/clip_none.cpp.o	b237b607f3fd0664
+42	1031	1674420071344267900	CMakeFiles/prem.dir/src/libs/clip/clip.cpp.o	ed6bbb5cb5c4f9f3
+16	965	1674420071316791300	CMakeFiles/prem.dir/test.cpp.o	52fab4a9f4306ead
+21	449	1674420071327267000	CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o	44302c588d256f3a
+18	202	1674420071320356500	CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o	3d20626387bd8a02
+1709	2129	1674420073010804800	prem	a5d803f0825f376c
