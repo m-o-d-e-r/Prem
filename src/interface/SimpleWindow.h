@@ -1,6 +1,9 @@
 #ifndef SIMPLE_WINDOW_H
 #define SIMPLE_WINDOW_H
 
+
+#include <string>
+
 #include "BaseWindow.h"
 
 
