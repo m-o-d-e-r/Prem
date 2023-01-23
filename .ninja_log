@@ -1,8 +1,21 @@
 # ninja log v5
-33	1708	1674420071335428400	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	3f64f10f922f6999
+15	2087	1674433538511481600	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
 63	1313	1674420071363997800	CMakeFiles/prem.dir/src/libs/clip/clip_none.cpp.o	b237b607f3fd0664
 42	1031	1674420071344267900	CMakeFiles/prem.dir/src/libs/clip/clip.cpp.o	ed6bbb5cb5c4f9f3
-16	965	1674420071316791300	CMakeFiles/prem.dir/test.cpp.o	52fab4a9f4306ead
-21	449	1674420071327267000	CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o	44302c588d256f3a
-18	202	1674420071320356500	CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o	3d20626387bd8a02
+9	797	1674433033541072900	CMakeFiles/prem.dir/test.cpp.o	84dd3412c1b4ec55
+28	479	1674421856633658600	CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o	2f1bfc1847d21d99
+19	306	1674421856628077900	CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o	8d9d4d9a4d183469
 1709	2129	1674420073010804800	prem	a5d803f0825f376c
+2089	2479	1674433540584687200	bin/prem	60f60856d04e0c34
+12	2134	1674433553437156600	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+2138	2527	1674433555563179300	bin/prem	60f60856d04e0c34
+16	2012	1674433744433094900	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+2015	2402	1674433746425956800	bin/prem	60f60856d04e0c34
+22	1996	1674433750681207300	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+1999	2404	1674433752657996600	bin/prem	60f60856d04e0c34
+26	2025	1674433989327067200	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+2026	2418	1674433991326797900	bin/prem	60f60856d04e0c34
+23	1968	1674434043639171500	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+1974	2425	1674434045589736100	bin/prem	60f60856d04e0c34
+15	2016	1674434128042219500	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	c40a7567c74d6239
+2021	2483	1674434130047516000	bin/prem	60f60856d04e0c34
