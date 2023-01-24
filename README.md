@@ -1,1 +1,4 @@
-This is the first version of the console editor.
+
+PreM - консольний редактор.
+
+PreM створюється для покращення життя Linux-адміністраторам.

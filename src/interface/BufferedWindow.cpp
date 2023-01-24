@@ -33,15 +33,20 @@ BufferedWindow::~BufferedWindow()
 {
     // call window destructor
 
+    wclear(this->window);
     delwin(this->window);
 
 
     // clear the buffer
-    /*for (int i = 0; i < this->height; i++)
+    for (int i = 0; i < this->height; i++)
     {
-        if (this->buffer[i])
-            delete this->buffer[i];
-    }*/
+        for (int n = 0; n < this->buffer[i]->size(); n++)
+        {
+            delete (*this->buffer[i])[n];
+        }
+
+        delete this->buffer[i];
+    }
 
 }
 
