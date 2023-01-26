@@ -233,6 +233,9 @@ PreM_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 PreM_SOURCE_DIR:STATIC=/mnt/d/pyrus/PreM
 
+//The directory containing a CMake configuration file for fmt.
+fmt_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/fmt
+
 //Path to a library.
 pkgcfg_lib_GTK3_atk-1.0:FILEPATH=/usr/lib/x86_64-linux-gnu/libatk-1.0.so
 

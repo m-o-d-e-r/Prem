@@ -11,13 +11,13 @@ add_executable(prem
 
     src/interface/BaseWindow.cpp
     src/interface/BufferedWindow.cpp
-)
+
+    src/core/args_preprocessor.cpp
+    )
 
 
 
 target_link_libraries(prem ncursesw)
-
-
 
 find_package (PkgConfig REQUIRED)
 
@@ -29,6 +29,9 @@ link_directories (${GTK3_LIBRARY_DIRS})
 
 target_link_libraries(prem ${GTK3_LIBRARIES})
 
+
+find_package(fmt CONFIG REQUIRED)
+target_link_libraries(prem fmt::fmt-header-only)  
 
 
 set(EXECUTABLE_OUTPUT_PATH "bin")

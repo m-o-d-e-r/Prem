@@ -11,7 +11,7 @@
 
 #include "BufferedWindow.h"
 
-#define PREM_SPECIAL_SYMBOL L'\n'
+#define PREM_SPECIAL_SYMBOL L' '
 
 
 
@@ -85,11 +85,10 @@ void BufferedWindow::init()
     if (this->filename)
     {
         this->__from_file_to_buffer();
+    } else {
+        this->__from_buffer_to_window();
     }
 
-//    this->__from_buffer_to_window();
-//    wmove(this->window, this->currentY, this->currentX);
-//    this->update();
 }
 
 
