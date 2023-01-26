@@ -154,3 +154,9 @@ void ArgsPreprocessor::__show_args_map()
     fmt::print("\n");
 
 }
+
+
+std::map<std::string, std::string> ArgsPreprocessor::getArgs()
+{
+    return this->__args_map;    
+}
