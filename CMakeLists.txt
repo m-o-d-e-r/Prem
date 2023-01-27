@@ -17,6 +17,8 @@ add_executable(prem
 
     src/core/cmdline.c
 
+    src/core/main_cycle.cpp
+
     )
 
 
