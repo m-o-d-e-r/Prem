@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 add_executable(prem
-    test.cpp
+    src/prem.cpp
 
     src/core/PremStructs/BufferItem.cpp
 
@@ -14,6 +14,9 @@ add_executable(prem
 
     src/core/args_preprocessor.cpp
     src/core/args_router.cpp
+
+    src/core/cmdline.c
+
     )
 
 

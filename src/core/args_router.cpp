@@ -1,49 +1,30 @@
 
+#include <fmt/printf.h>
+#include <fmt/color.h>   
+
 #include "args_router.h"
 
 
 
-Option::Option(__OptionRule* rule)
+ArgsRouter::ArgsRouter(gengetopt_args_info* args_info)
 {
-    this->__rule = rule;
+    this->args_info = args_info;
+
 }
 
-
-Option::~Option()
+void ArgsRouter::run()
 {
-    delete this->__rule;
-}
+    if (this->args_info->file_arg)
+    {
+       fmt::print("Open the file {}\n", this->args_info->file_arg);
+    }
+    else if (this->args_info->install_arg)
+    {
+       fmt::print("Install new dict {}\n", this->args_info->install_arg);
+    }
+    else if (this->args_info->remove_arg)
+    {
+       fmt::print("Remove dict {}\n", this->args_info->remove_arg);
+    }
 
-
-std::string Option::getShort() {return std::get<0>(*this->__rule);}
-
-
-std::string Option::getLong() {return std::get<1>(*this->__rule);}
-
-
-bool Option::getStatus() {return std::get<2>(*this->__rule);}
-
-
-bool Option::isBool() {return std::get<3>(*this->__rule);}
-
-
-std::string Option::getDescription() {return std::get<4>(*this->__rule);}
-
-
-
-
-
-
-
-
-
-
-
-
-ArgsRouter::ArgsRouter(/* args */)
-{
-}
-
-ArgsRouter::~ArgsRouter()
-{
 }

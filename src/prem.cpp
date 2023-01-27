@@ -1,19 +1,37 @@
-#include <iostream>
-#include <vector>
+
 #include <string>
-#include <thread>
-#include <sys/ioctl.h>
+#include <iostream>
 
 #include <ncurses.h>
 
+#include "interface/BaseWindow.h"
+#include "interface/BufferedWindow.h"
 
-//#include "core/MainWindow.h"
+
+#define PREM_KEY_ENTER 13
+#define PREM_KEY_CTRL(x) ((x) & 0x1f)
+
+#include "core/PremStructs/BufferItem.h"
+
+#include "core/args_preprocessor.h"
+#include "core/args_router.h"
+
+//#include "core/config_reader.h"
 
 
-int main()
+int main(int argc, char** argv)
 {
-/*    MainWindow mainWindow;
-    mainWindow.initializeWindow();
-    mainWindow.show();*/
+    setlocale(LC_ALL, "");
 
+
+//    ConfigReader config;
+
+    ArgsPreprocessor __args_preprocessor;
+    __args_preprocessor.parse(argc, argv);
+
+
+    ArgsRouter __args_router(__args_preprocessor.getArgsTable());
+    __args_router.run();
+
+    return 0;
 }
