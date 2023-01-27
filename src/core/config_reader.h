@@ -1,4 +1,7 @@
 
+#ifndef _CONFIG_READER_H_
+#define _CONFIG_READER_H_
+
 #include <string>
 #include <map>
 
@@ -17,3 +20,6 @@ public:
     toml::table& getTableByName(std::string);
 
 };
+
+
+#endif

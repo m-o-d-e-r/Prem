@@ -1,6 +1,6 @@
 
-#ifndef BUFFERED_WINDOW_H
-#define BUFFERED_WINDOW_H
+#ifndef _BUFFERED_WINDOW_H_
+#define _BUFFERED_WINDOW_H_
 
 #include <vector>
 

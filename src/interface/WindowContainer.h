@@ -1,5 +1,6 @@
-#ifndef WINDOW_CONTAINER_H
-#define WINDOW_CONTAINER_H
+
+#ifndef _WINDOW_CONTAINER_H_
+#define _WINDOW_CONTAINER_H_
 
 #include <memory>
 #include <vector>
@@ -7,11 +8,19 @@
 #include "BaseWindow.h"
 
 
+enum class WinTypes {
+    WORKSPACE,
+    HINT_SIDEBAR,
+    STATUSBAR
+};
+
+
+
+
 class WindowContainer: public BaseWindow
 {
 private:
-    std::vector<std::shared_ptr<BaseWindow>> __window_objects;
-    int* __window_offsets;
+    std::vector<BaseWindow*> __window_objects;
 
 public:
     WindowContainer();

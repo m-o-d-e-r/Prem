@@ -1,5 +1,6 @@
-#ifndef BUFFER_ITEM_H_
-#define BUFFER_ITEM_H_
+
+#ifndef _BUFFER_ITEM_H_
+#define _BUFFER_ITEM_H_
 
 #include <ncurses.h>
 

@@ -19,6 +19,10 @@
 //#include "core/config_reader.h"
 
 
+
+
+
+
 int main(int argc, char** argv)
 {
     setlocale(LC_ALL, "");
@@ -26,12 +30,12 @@ int main(int argc, char** argv)
 
 //    ConfigReader config;
 
-    ArgsPreprocessor __args_preprocessor;
+    /*ArgsPreprocessor __args_preprocessor;
     __args_preprocessor.parse(argc, argv);
 
 
     ArgsRouter __args_router(__args_preprocessor.getArgsTable());
-    __args_router.run();
+    __args_router.run();*/
 
 
 

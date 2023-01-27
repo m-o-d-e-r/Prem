@@ -1,4 +1,7 @@
 
+#ifndef _ARGS_PREPROCESSOR_H_
+#define _ARGS_PREPROCESSOR_H_
+
 #include <map>
 #include <string>
 
@@ -21,3 +24,5 @@ public:
 
 };
 
+
+#endif

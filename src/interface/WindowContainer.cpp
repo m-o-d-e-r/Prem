@@ -12,13 +12,12 @@ WindowContainer::WindowContainer()
 
 WindowContainer::~WindowContainer()
 {
-    delete __window_offsets;
+
 }
 
 
 void WindowContainer::init()
 {
-
 }
 
 
