@@ -38,12 +38,26 @@ void ArgsRouter::run()
             "\tVersion: {}\n\n",
             this->_config->getTableByName("info")["program"]["version"].value_or("Error")
         );
+
     }
     else if (this->args_info->mapCounter['h'])
     {
         fmt::print(
-            "help\n"
+            fg(fmt::color::dark_cyan),
+            "\tVersion: {}\n",
+            this->_config->getTableByName("info")["program"]["version"].value_or("Error")
         );
+
+        fmt::print(
+            fg(fmt::color::dark_cyan),
+            "\n  -f          Specify path to file"
+            "\n  -i          Install new dict (need path to folder)"
+            "\n  -r          Remove dict by name"
+            "\n  -V          Show program version"
+            "\n  -h          Show help text"
+            "\n\n"
+        );
+
     }
 
 }
