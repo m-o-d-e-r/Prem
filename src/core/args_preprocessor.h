@@ -5,13 +5,39 @@
 #include <map>
 #include <string>
 
-#include "cmdline.h"
+#include <fmt/printf.h>
+#include <fmt/color.h>
+
+
+
+struct ArgsInfo
+{
+    std::map<char, char*> mapValues = {
+        {'f', nullptr},
+        {'i', nullptr},
+        {'r', nullptr},
+        {'V', nullptr},
+        {'h', nullptr}
+    };
+
+    std::map<char, uint8_t> mapCounter = {
+        {'f', 0},
+        {'i', 0},
+        {'r', 0},
+        {'V', 0},
+        {'h', 0}
+    };
+
+};
+
+
+
 
 
 class ArgsPreprocessor
 {
 private:
-    gengetopt_args_info* args_info;
+    ArgsInfo* args_info;
 
 public:
     ArgsPreprocessor();
@@ -20,7 +46,7 @@ public:
     void parse(int argc, char** argv);
     void __show_args_map();
 
-    gengetopt_args_info* getArgsTable();
+    ArgsInfo* getArgsInfo();
 
 };
 

@@ -14,11 +14,12 @@
 #include "core/PremStructs/BufferItem.h"
 
 #include "core/args_preprocessor.h"
-#include "core/args_router.h"
+//#include "core/args_router.h"
 
 //#include "core/config_reader.h"
 
 
+#include <getopt.h>
 
 
 
@@ -30,13 +31,12 @@ int main(int argc, char** argv)
 
 //    ConfigReader config;
 
-    /*ArgsPreprocessor __args_preprocessor;
+    ArgsPreprocessor __args_preprocessor;
     __args_preprocessor.parse(argc, argv);
 
 
-    ArgsRouter __args_router(__args_preprocessor.getArgsTable());
+    /*ArgsRouter __args_router(__args_preprocessor.getArgsTable());
     __args_router.run();*/
-
 
 
     return 0;
