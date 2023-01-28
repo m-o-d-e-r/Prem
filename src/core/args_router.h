@@ -4,18 +4,19 @@
 
 #include <string>
 
-#include "cmdline.h"
-
+#include "args_preprocessor.h"
+#include "config_reader.h"
 
 
 class ArgsRouter
 {
 private:
-    gengetopt_args_info* args_info;
+    ArgsInfo* args_info;
+    ConfigReader* _config;
 
 public:
     ArgsRouter() = delete;
-    ArgsRouter(gengetopt_args_info* );
+    ArgsRouter(ArgsInfo* , ConfigReader* );
 
     void run();
 

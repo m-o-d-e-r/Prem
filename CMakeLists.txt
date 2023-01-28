@@ -16,7 +16,7 @@ add_executable(prem
     src/core/args_preprocessor.cpp
     src/core/args_router.cpp
 
-    src/core/cmdline.c
+    src/core/config_reader.cpp
 
     src/core/main_cycle.cpp
 
