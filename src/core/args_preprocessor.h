@@ -17,7 +17,8 @@ struct ArgsInfo
         {'i', nullptr},
         {'r', nullptr},
         {'V', nullptr},
-        {'h', nullptr}
+        {'h', nullptr},
+        {'g', nullptr}
     };
 
     std::map<char, uint8_t> mapCounter = {
@@ -25,7 +26,8 @@ struct ArgsInfo
         {'i', 0},
         {'r', 0},
         {'V', 0},
-        {'h', 0}
+        {'h', 0},
+        {'g', 0}
     };
 
 };

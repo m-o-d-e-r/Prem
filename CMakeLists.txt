@@ -20,6 +20,8 @@ add_executable(prem
 
     src/core/main_cycle.cpp
 
+    src/core/help_functions.cpp
+
     )
 
 

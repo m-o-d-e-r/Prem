@@ -1,5 +1,9 @@
 
 #include <string>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <pwd.h>
 
 #include "args_router.h"
 #include "main_cycle.h"
@@ -25,11 +29,11 @@ void ArgsRouter::run()
     }
     else if (this->args_info->mapCounter['i'])
     {
-        fmt::print("Install new dict {}\n", this->args_info->mapValues['i']);
+        fmt::print("TODO: Install new dict {}\n", this->args_info->mapValues['i']);
     }
     else if (this->args_info->mapCounter['r'])
     {
-        fmt::print("Remove dict {}\n", this->args_info->mapValues['r']);
+        fmt::print("TODO: Remove dict {}\n", this->args_info->mapValues['r']);
     }
     else if (this->args_info->mapCounter['V'])
     {
@@ -55,8 +59,38 @@ void ArgsRouter::run()
             "\n  -r          Remove dict by name"
             "\n  -V          Show program version"
             "\n  -h          Show help text"
+            "\n  -g          Make global config"
             "\n\n"
         );
+
+    }
+    else if (this->args_info->mapCounter['g'])
+    {
+        char* __folder_name = "/.prem";
+
+
+        passwd* pw = getpwuid(getuid());
+        char* homedir = pw->pw_dir;
+
+        fmt::print(fg(fmt::color::dark_cyan), "\tStart global config\n\n");
+
+        fmt::print(
+            "Home dir: {}\n",
+            homedir
+        );
+
+
+        int mkdir_status = mkdir(strcat(homedir, __folder_name), 0775);
+
+        if (!mkdir_status)
+        {
+            fmt::print(fg(fmt::color::dark_cyan), "\tFolder {} created\n\n", homedir);
+        } else {
+            fmt::print(fg(fmt::color::orange_red), "\tUnable to create {} folder\n\n", homedir);
+        }
+
+
+
 
     }
 

@@ -116,6 +116,14 @@ build CMakeFiles/prem.dir/src/core/main_cycle.cpp.o: CXX_COMPILER__prem_ /mnt/d/
   OBJECT_DIR = CMakeFiles/prem.dir
   OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/core
 
+build CMakeFiles/prem.dir/src/core/help_functions.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/src/core/help_functions.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
+  DEP_FILE = CMakeFiles/prem.dir/src/core/help_functions.cpp.o.d
+  FLAGS = -pthread
+  INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+  OBJECT_DIR = CMakeFiles/prem.dir
+  OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/core
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target prem
@@ -124,7 +132,7 @@ build CMakeFiles/prem.dir/src/core/main_cycle.cpp.o: CXX_COMPILER__prem_ /mnt/d/
 #############################################
 # Link the executable bin/prem
 
-build bin/prem: CXX_EXECUTABLE_LINKER__prem_ CMakeFiles/prem.dir/src/prem.cpp.o CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o CMakeFiles/prem.dir/src/interface/WindowContainer.cpp.o CMakeFiles/prem.dir/src/core/args_preprocessor.cpp.o CMakeFiles/prem.dir/src/core/args_router.cpp.o CMakeFiles/prem.dir/src/core/config_reader.cpp.o CMakeFiles/prem.dir/src/core/main_cycle.cpp.o
+build bin/prem: CXX_EXECUTABLE_LINKER__prem_ CMakeFiles/prem.dir/src/prem.cpp.o CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o CMakeFiles/prem.dir/src/interface/WindowContainer.cpp.o CMakeFiles/prem.dir/src/core/args_preprocessor.cpp.o CMakeFiles/prem.dir/src/core/args_router.cpp.o CMakeFiles/prem.dir/src/core/config_reader.cpp.o CMakeFiles/prem.dir/src/core/main_cycle.cpp.o CMakeFiles/prem.dir/src/core/help_functions.cpp.o
   LINK_LIBRARIES = -lncursesw  -lgtk-3  -lgdk-3  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -latk-1.0  -lcairo-gobject  -lcairo  -lgdk_pixbuf-2.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0
   OBJECT_DIR = CMakeFiles/prem.dir
   POST_BUILD = :
