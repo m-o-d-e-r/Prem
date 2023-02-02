@@ -115,7 +115,7 @@ void ArgsPreprocessor::parse(int argc, char** argv)
     int _iteration = 0;
 
 
-    while((_opt = getopt(argc, argv, ":f:i:r:Vhg")) != -1)
+    while((_opt = getopt(argc, argv, ":f:i:r:Vh")) != -1)
     {
         switch(_opt)
         {
@@ -144,10 +144,10 @@ void ArgsPreprocessor::parse(int argc, char** argv)
             __one_cli_argument_check(this->args_info, 'h', argc, argv);
             break;
 
-        case 'g':
+        /*case 'g':
             __double_definition_check(this->args_info, 'g', argc, argv);
             __one_cli_argument_check(this->args_info, 'g', argc, argv);
-            break;
+            break;*/
 
         case '?':
             __print_error_pointer(argc, argv);
