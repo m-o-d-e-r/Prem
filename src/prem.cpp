@@ -33,12 +33,12 @@ int main(int argc, char** argv)
     ConfigReader* config = new ConfigReader;
 
 
-    /*ArgsPreprocessor __args_preprocessor;
+    ArgsPreprocessor __args_preprocessor;
     __args_preprocessor.parse(argc, argv);
 
 
     ArgsRouter __args_router(__args_preprocessor.getArgsInfo(), config);
-    __args_router.run();*/
+    __args_router.run();
 
 
     delete config;

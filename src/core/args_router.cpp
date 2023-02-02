@@ -24,7 +24,7 @@ void ArgsRouter::run()
     {
         fmt::print("Open the file {}\n", this->args_info->mapValues['f']);
     
-        premGeneralLifeCycle();
+        premGeneralLifeCycle(this->_config, this->args_info->mapValues['f']);
 
     }
     else if (this->args_info->mapCounter['i'])
