@@ -276,16 +276,23 @@ void BufferedWindow::insertLine()
 void BufferedWindow::deleteBefore()
 {
 
-    // FIX:
-
-
     if (__buffer_y== 0 && this->currentX == 0)
         return;
 
 
     this->currentX--;
-    __modify_buffer_coordinates();
 
+    if (this->currentViewX > 0)
+    {
+        if (this->currentX <= 1)
+        {
+            this->currentViewX--;
+            this->currentX++;
+        }
+    }
+
+
+    __modify_buffer_coordinates();
     if (this->currentX >= 0)
     {
         std::vector<__BufferItem*>::iterator rowIter = this->buffer[__buffer_y]->begin();
