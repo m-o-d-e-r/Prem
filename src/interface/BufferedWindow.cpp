@@ -61,7 +61,6 @@ void BufferedWindow::init()
 
     keypad(this->window, TRUE);
 
-
     // initialize window buffer
 
     this->buffer.resize(this->height);
@@ -401,38 +400,36 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 }
 
 
-void BufferedWindow::copyFromBuffer(){}
+void BufferedWindow::copyFromBuffer() {}
 
 
 void BufferedWindow::pasteToBuffer()
 {
-    /*gtk_init(0, 0);
+    gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     std::string buffer_text = (std::string)gtk_clipboard_wait_for_text(clip);
 
-
-    int currentLine = this->currentViewY + this->currentY;
-
-    std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[currentLine]->begin();
-
+ 
     for (int i = 0; i < buffer_text.size(); i++)
     {
-        this->buffer[currentLine]->insert(
-            bufferLineIter + this->currentX + this->currentViewX + i,
+        this->buffer[__buffer_y]->insert(
+            this->buffer[__buffer_y]->begin() + __buffer_x + i,
             new __BufferItem(buffer_text[i])
         );
+
     }
 
-    if (this->buffer[currentLine]->size() < this->width)
+    if (this->buffer[__buffer_y]->size() < this->width)
     {
-        this->currentX++;
+        this->currentX += buffer_text.size();
     } else {
-        this->currentViewX = this->buffer[currentLine]->size() - this->width + 1;
-//        this->currentX;
+        this->currentViewX = this->buffer[__buffer_y]->size() - this->width + 1;
+        // FIX
+
     }
 
-    __from_buffer_to_window();*/
+    __from_buffer_to_window();
 
 }
 
@@ -473,6 +470,7 @@ void BufferedWindow::__from_buffer_to_window()
 
     int columns_count;
 
+//    wborder(this->window, '|', '|', '-', '-', '+', '+', '+', '+'); // TODO
     for (int i = 0; i < rows_count; i++)
     {
         if (this->buffer[this->currentViewY + i]->size() >= this->width)
@@ -495,7 +493,7 @@ void BufferedWindow::__from_buffer_to_window()
         }
     }
     wmove(this->window, this->currentY, this->currentX);
-    
+
     __modify_buffer_coordinates();
 
     this->update();
