@@ -328,7 +328,9 @@ void BufferedWindow::deleteBefore()
 
 
         if (tmp_size < this->width)
-            this->moveHorizontal(tmp_size + 1);
+        {
+            this->currentX = tmp_size;
+        }
         else {
             this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 3;
             this->currentX = this->width - 3;
@@ -405,19 +407,17 @@ void BufferedWindow::copyFromBuffer()
 {
     // fucking fuck...
 
-    /*int left_border  = __buffer_x;
+    int left_border  = __buffer_x;
     int right_border = __buffer_x;
-    short done = 0;
+    short done;
 
     while (true)
     {
-        if (done >= 2)
-            break;
-
+        done = 0;
 
         if (
             left_border > 0 &&
-            (*this->buffer[__buffer_y])[left_border - 1]->getItemData()->chars[0] != ' '
+            (*this->buffer[__buffer_y])[left_border - 1]->getItemData() != ' '
         )
         {
             left_border--;
@@ -427,7 +427,7 @@ void BufferedWindow::copyFromBuffer()
 
         if (
             right_border < this->buffer[__buffer_y]->size() - 1 &&
-            (*this->buffer[__buffer_y])[right_border + 1]->getItemData()->chars[0] != ' '
+            (*this->buffer[__buffer_y])[right_border + 1]->getItemData() != ' '
         )
         {
             right_border++;
@@ -435,28 +435,30 @@ void BufferedWindow::copyFromBuffer()
             done++;
         }
 
-    }*/
+        if (done >= 2)
+            break;
 
-/*
-    std::vector<wchar_t> __text_buffer;
+    }
 
-    for (int i = left_border; i < right_border; i++)
+
+    int buff_len = right_border - left_border + 1;
+    __PremChar* __text_buffer = new __PremChar[buff_len];
+
+    for (int i = left_border; i < buff_len; i++)
     {
-        __text_buffer.push_back(
-            (*this->buffer[__buffer_y])[i]->getItemData()->chars[0]
-        );
+        __text_buffer[i] = (*this->buffer[__buffer_y])[i]->getItemData();
 
-    }*/
+    }
 
-    /*gtk_init(0, 0);
+
+    gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 
-    gchar* text = "Hello, ф or \u0444!\n";
+    gtk_clipboard_set_text(clip, __text_buffer, buff_len);
 
-    gtk_clipboard_set_text(clip, text, strlen(text));*/
 
-//    gtk_clipboard_set_text(clip, (char*)text_buffer, copy_data_length);
+    delete __text_buffer;
 
 }
 

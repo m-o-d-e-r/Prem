@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 
-#define PREM_USE_UNICODE_BUFFER
+//#define PREM_USE_UNICODE_BUFFER
 
 
 class UnicodeBufferItem;
