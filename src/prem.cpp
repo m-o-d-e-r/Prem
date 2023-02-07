@@ -27,8 +27,7 @@ int main(int argc, char** argv)
     setlocale(LC_ALL, "");
 
 
-//    _copy_folder("src/.prem.bak/config/info.toml", "/home/moder/.prem/config");
-
+//    std::cout << "Hello, ф or \u0444!\n";
 
     ConfigReader* config = new ConfigReader;
 
