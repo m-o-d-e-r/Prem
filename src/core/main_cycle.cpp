@@ -4,6 +4,7 @@
 #include "main_cycle.h"
 #include "../interface/WindowContainer.h"
 #include "../core/PremStructs/Trie.h"
+#include "../core/help_functions.h"
 
 #define PREM_KEY_ENTER 13
 #define PREM_KEY_CTRL(x) ((x) & 0x1f)
@@ -79,16 +80,16 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
     commandStorage.insert("Perl");
 
 
-    /*SimpleWindow keyBarWindow(
+    SimpleWindow keyBarWindow(
         {
             COLS * 0.3 - 3,
             LINES,
             COLS * 0.7 + 3,
             0
         },
-        commandStorage.getSimple("R"),
+        nullptr,
         _SW_Vector_Policy::VERTICAL
-    );*/
+    );
 
 
 
@@ -153,17 +154,21 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 // TODO:
                 // !!! do not touch
 
+                std::string str;
+                str += static_cast<char>(*input);
+                commandStorage.getSimple(str);
 
                 /*std::string str;
                 str += static_cast<char>(*input);
                 keyBarWindow.updateStorage(
                     commandStorage.getSimple(str)
-                );
-                keyBarWindow.init();*/
+                );*/
+//                keyBarWindow.init();
+
                 break;
+
         }
+
     }
-
-
 
 }

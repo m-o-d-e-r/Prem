@@ -31,6 +31,7 @@ class CommandTrie
 {
 private:
     TrieNode* root;
+    std::string __current_word;
 
 public:
     CommandTrie();
