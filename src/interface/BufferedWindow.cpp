@@ -30,6 +30,14 @@ BufferedWindow::BufferedWindow(int width, int height, char* filename): BaseWindo
 }
 
 
+BufferedWindow::BufferedWindow(WinGeometry geometry, char* filename)
+    : BaseWindow(geometry)
+{
+    this->filename = filename;
+    init();
+}
+
+
 BufferedWindow::~BufferedWindow()
 {
     // call window destructor
@@ -58,7 +66,7 @@ WINDOW* BufferedWindow::getWindow() {return this->window;}
 void BufferedWindow::init()
 {
     // initialize ncurses window
-    this->window = newwin(this->height, this->width, 0, 0);
+    this->window = newwin(this->height, this->width, __win_dY, __win_dX);
 
     keypad(this->window, TRUE);
 
@@ -129,28 +137,35 @@ void BufferedWindow::doScroll(int dY)
         }
 
 
-        int currentLine = this->currentY + this->currentViewY;
-
-
-        if (this->buffer[currentLine + dY]->size() < this->width)
+        if (this->buffer[__buffer_y + dY]->size() < this->width)
         {
             this->currentViewX = 0;
 
-            while (this->currentX > this->buffer[currentLine + dY]->size())
-            {
-                this->currentX--;
-            }
+            if (this->currentX > this->buffer[__buffer_y + dY]->size())
+                this->currentX = this->buffer[__buffer_y + dY]->size();
 
         }
-        else if (this->buffer[currentLine + dY]->size() >= this->width && this->currentViewX != 0)
+        else if (this->buffer[__buffer_y + dY]->size() >= this->width /*&& this->currentViewX != 0*/)
         {
+//            __modify_buffer_coordinates();
 
-            if (
-//                (this->buffer[currentLine]->size() > this->buffer[currentLine + dY]->size()) &&
-                (this->currentViewX + this->currentX > this->buffer[currentLine + dY]->size())
-            )
+            if (this->buffer[__buffer_y + dY]->size() < this->buffer[__buffer_y]->size())
             {
-                this->currentX -= this->buffer[currentLine]->size() - this->buffer[currentLine + dY]->size();
+                while (this->currentViewX + this->currentX > this->buffer[__buffer_y + dY]->size())
+                {
+                    // TODO:
+                    // FIX:
+
+                    this->currentViewX--;
+                    /*if (this->currentX - 1 > 0)
+                        this->currentX--;
+                    else {
+                        this->currentX--;
+                        this->currentViewX++;
+                    }*/
+
+                }
+
             }
 
         }
@@ -158,6 +173,7 @@ void BufferedWindow::doScroll(int dY)
         this->currentY += dY;
 
         __from_buffer_to_window();
+
     }
 
 }
@@ -184,8 +200,8 @@ void BufferedWindow::moveHorizontal(int dX)
         {
             if (this->buffer[__buffer_y - 1]->size() > this->width)
             {
-                this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 3;
-                this->currentX = this->width - 3;
+                this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 5;
+                this->currentX = this->width - 5;
             } else {
                 this->currentViewX = 0;
                 this->currentX = this->buffer[__buffer_y - 1]->size();
@@ -205,12 +221,12 @@ void BufferedWindow::moveHorizontal(int dX)
         this->currentViewX = 0;
     } else {
 
-        if (this->currentX == this->width - 2 && dX == 1)
+        if (this->currentX > this->width - 5 && dX == 1)
         {
             this->currentViewX++;
             this->currentX--;
 
-        } else if (this->currentX == 0 && this->currentViewX > 0)
+        } else if (this->currentX <= 5 && this->currentViewX > 0)
         {
             this->currentViewX--;
             this->currentX++;

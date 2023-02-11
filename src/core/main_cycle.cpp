@@ -3,6 +3,7 @@
 
 #include "main_cycle.h"
 #include "../interface/WindowContainer.h"
+#include "../core/PremStructs/Trie.h"
 
 #define PREM_KEY_ENTER 13
 #define PREM_KEY_CTRL(x) ((x) & 0x1f)
@@ -11,11 +12,9 @@
 
 void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 {
-    /*initscr();
+    initscr();
 
-
-
-    BufferedWindow* editorWorkPlace = nullptr;
+    /*BufferedWindow* editorWorkPlace = nullptr;
     SimpleWindow* keyBarWindow = new SimpleWindow(
         100,
         30,
@@ -54,7 +53,46 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
     refresh();
 
 
-    BufferedWindow win(COLS, LINES, __file_name);
+
+
+    BufferedWindow win(
+        {
+            COLS * 0.7 - 1,
+            LINES,
+            2,
+            1
+        },
+        __file_name
+    );
+
+
+
+    CommandTrie commandStorage;
+    commandStorage.insert("Python");
+    commandStorage.insert("C++");
+    commandStorage.insert("Java");
+    commandStorage.insert("Java Script");
+    commandStorage.insert("C#");
+    commandStorage.insert("C");
+    commandStorage.insert("Rust");
+    commandStorage.insert("Ruby");
+    commandStorage.insert("Perl");
+
+
+    /*SimpleWindow keyBarWindow(
+        {
+            COLS * 0.3 - 3,
+            LINES,
+            COLS * 0.7 + 3,
+            0
+        },
+        commandStorage.getSimple("R"),
+        _SW_Vector_Policy::VERTICAL
+    );*/
+
+
+
+
 
     wint_t* input = new wint_t;
     bool run = true;
@@ -111,8 +149,21 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
             default:
                 win.modifyBuffer(input);
+
+                // TODO:
+                // !!! do not touch
+
+
+                /*std::string str;
+                str += static_cast<char>(*input);
+                keyBarWindow.updateStorage(
+                    commandStorage.getSimple(str)
+                );
+                keyBarWindow.init();*/
                 break;
         }
     }
+
+
 
 }

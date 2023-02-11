@@ -25,18 +25,19 @@ class SimpleWindow: public BaseWindow
 private:
     WINDOW* __window;
 
-    int __width;
-    int __height;
     _StringContainer* __data;
     _SW_Vector_Policy __policy;
 
 public:
     SimpleWindow() = delete;
     SimpleWindow(int, int, _StringContainer*, _SW_Vector_Policy);
+    SimpleWindow(WinGeometry, _StringContainer*, _SW_Vector_Policy);
     ~SimpleWindow();
 
     void init();
     void update();
+
+    void updateStorage(_StringContainer*);
 
     WINDOW* getWindow() {return __window;}
 

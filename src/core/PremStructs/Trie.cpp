@@ -1,3 +1,4 @@
+
 #include "Trie.h"
 
 
@@ -139,6 +140,8 @@ std::vector<std::string>* CommandTrie::getSimple(std::string str)
     {
         this->__getSimple(str, item, simpleStrings);
     }
+
+    delete current_node;
 
     return simpleStrings;
 }
