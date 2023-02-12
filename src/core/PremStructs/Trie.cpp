@@ -156,7 +156,7 @@ __FondedWords* CommandTrie::find(std::string str)
 
     }
 
-    __setUnvisited(current_node);
+    __setUnvisited(parent_node);
 
 
     return fonded_strings_data;

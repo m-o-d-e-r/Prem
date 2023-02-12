@@ -47,6 +47,8 @@ int main()
 
     print_simple(commandStorage.find("R"));
     print_simple(commandStorage.find("Rus"));
+    print_simple(commandStorage.find("Rus"));
+    print_simple(commandStorage.find("P"));
     print_simple(commandStorage.find("Py"));
     print_simple(commandStorage.find("Pyt"));
     print_simple(commandStorage.find("Pe"));
@@ -79,3 +81,5 @@ int main()
     return 0;
 
 }
+
+// g++ -o test src/test.cpp src/core/PremStructs/Trie.cpp
