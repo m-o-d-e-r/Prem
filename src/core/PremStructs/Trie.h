@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <tuple>
 #include <memory>
 
 
@@ -26,6 +27,7 @@ class TrieNode;
 #define __TrieNode_Ptr std::shared_ptr<TrieNode>
 #define __make_TrieNode_Ptr std::make_shared
 #define __FondedWords std::vector<std::string>
+#define __TrieNodePair std::tuple<__TrieNode_Ptr, __TrieNode_Ptr, std::string>
 
 
 
@@ -46,7 +48,7 @@ public:
     char getValue();
 
     bool isVisited();
-    void makeVisited();
+    void makeVisited(bool status = true);
 
     bool isEndOfWord();
 
@@ -70,6 +72,11 @@ public:
     void insert(std::string str);
 
     __FondedWords* find(std::string str);
+    __FondedWords* find2(std::string str);
+    __TrieNodePair findNodePair(std::string str);
+
+private:
+    void __setUnvisited(__TrieNode_Ptr start);
 
 };
 
