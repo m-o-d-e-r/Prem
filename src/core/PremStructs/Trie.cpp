@@ -195,9 +195,13 @@ __TrieNodePair CommandTrie::findNodePair(std::string str)
                     prefix += item->getValue();
                     node_stack.push(item);
                     char_index++;
+
                 }
+
             }
+
         }
+
     }
 
     if (prefix.length() > 0)
@@ -218,6 +222,11 @@ void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
         __TrieNode_Ptr current_node = node_stack.top();
         node_stack.pop();
 
+        if (current_node->isVisited())
+        {
+            current_node->makeVisited(false);
+        }
+
 //        std::cout << current_node->getValue() << "\n";
 
         if (current_node->getChilds().size() > 0)
@@ -229,7 +238,9 @@ void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
                 {
                     item->makeVisited(false);
                 }
+
             }
+
         }
 
     }

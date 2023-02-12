@@ -26,7 +26,7 @@ int main()
 
     CommandTrie commandStorage;
     commandStorage.insert("Python");
-    commandStorage.insert("C+-");
+    commandStorage.insert("C++");
     commandStorage.insert("Java");
     commandStorage.insert("C#");
     commandStorage.insert("Java Script");
@@ -36,23 +36,21 @@ int main()
     commandStorage.insert("Perl");
 
 
-
-
 //    std::cout << std::get<0>(commandStorage.findNodePair("W")) << "\n";
 //    std::cout << std::get<0>(commandStorage.findNodePair("Rusd"))->getValue() << "\n";
-    std::cout << "\n\n";
-
-
-//    std::cout << std::get<2>(commandStorage.findNodePair("Rus")) << "\n";
 
     print_simple(commandStorage.find("R"));
-    print_simple(commandStorage.find("Rus"));
+    print_simple(commandStorage.find("R"));
+    /*print_simple(commandStorage.find("Ru"));
     print_simple(commandStorage.find("Rus"));
     print_simple(commandStorage.find("P"));
     print_simple(commandStorage.find("Py"));
     print_simple(commandStorage.find("Pyt"));
     print_simple(commandStorage.find("Pe"));
-    print_simple(commandStorage.find("W"));
+
+    print_simple(commandStorage.find("C"));
+
+    print_simple(commandStorage.find("W"));*/
 
     /*std::cout << std::get<0>(commandStorage.findNodePair("C"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C"))->getValue() << "\n";
     std::cout << std::get<0>(commandStorage.findNodePair("C#"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C#"))->getValue() << "\n";
