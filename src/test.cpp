@@ -5,7 +5,7 @@
 
 
 
-void print_simple(std::vector<std::string>* data)
+void print_simple(__FondedWords* data)
 {
     if (data)
     {
@@ -19,6 +19,7 @@ void print_simple(std::vector<std::string>* data)
 }
 
 
+
 int main()
 {
 
@@ -26,17 +27,22 @@ int main()
     commandStorage.insert("Python");
     commandStorage.insert("C++");
     commandStorage.insert("Java");
-    commandStorage.insert("Java Script");
     commandStorage.insert("C#");
+    commandStorage.insert("Java Script");
     commandStorage.insert("C");
     commandStorage.insert("Rust");
     commandStorage.insert("Ruby");
     commandStorage.insert("Perl");
 
 
-    print_simple(commandStorage.getSimple("P"));
-    print_simple(commandStorage.getSimple("P"));
+    /*print_simple(commandStorage.getSimple("C"));
+    print_simple(commandStorage.getSimple("P"));*/
 
+    print_simple(commandStorage.find("R"));
+//    commandStorage.find("R");
+
+
+//    print_simple(commandStorage.getSimple("J"));
 
     return 0;
 
