@@ -41,16 +41,16 @@ int main()
 
     print_simple(commandStorage.find("R"));
     print_simple(commandStorage.find("R"));
-    /*print_simple(commandStorage.find("Ru"));
+    print_simple(commandStorage.find("Ru"));
     print_simple(commandStorage.find("Rus"));
     print_simple(commandStorage.find("P"));
     print_simple(commandStorage.find("Py"));
     print_simple(commandStorage.find("Pyt"));
     print_simple(commandStorage.find("Pe"));
-
     print_simple(commandStorage.find("C"));
-
-    print_simple(commandStorage.find("W"));*/
+    print_simple(commandStorage.find("Java"));
+    print_simple(commandStorage.find("J"));
+    print_simple(commandStorage.find("W"));
 
     /*std::cout << std::get<0>(commandStorage.findNodePair("C"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C"))->getValue() << "\n";
     std::cout << std::get<0>(commandStorage.findNodePair("C#"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C#"))->getValue() << "\n";
