@@ -45,12 +45,12 @@ int main()
 
 //    std::cout << std::get<2>(commandStorage.findNodePair("Rus")) << "\n";
 
-    print_simple(commandStorage.find2("R"));
-    print_simple(commandStorage.find2("Rus"));
-    print_simple(commandStorage.find2("Py"));
-    print_simple(commandStorage.find2("Pyt"));
-    print_simple(commandStorage.find2("Pe"));
-    print_simple(commandStorage.find2("W"));
+    print_simple(commandStorage.find("R"));
+    print_simple(commandStorage.find("Rus"));
+    print_simple(commandStorage.find("Py"));
+    print_simple(commandStorage.find("Pyt"));
+    print_simple(commandStorage.find("Pe"));
+    print_simple(commandStorage.find("W"));
 
     /*std::cout << std::get<0>(commandStorage.findNodePair("C"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C"))->getValue() << "\n";
     std::cout << std::get<0>(commandStorage.findNodePair("C#"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C#"))->getValue() << "\n";
