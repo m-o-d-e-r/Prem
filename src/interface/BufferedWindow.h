@@ -56,6 +56,8 @@ public:
 
     std::string getCurrentWord();
 
+    void doAutocomplete();
+
 private:
     void __find_current_word();
 

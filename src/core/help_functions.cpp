@@ -1,4 +1,5 @@
 
+#include <fstream>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -41,7 +42,16 @@ void _create_folder(char* _path_to_folder)
 {
     if (!_is_folder_exist(_path_to_folder))
         std::filesystem::create_directory(_path_to_folder);
+}
 
+
+void _create_file(char* _path_to_file)
+{
+    if (!_is_file_exist(_path_to_file))
+    {
+        std::fstream _out(_path_to_file, std::ios_base::out);
+        _out.close();
+    }
 }
 
 
