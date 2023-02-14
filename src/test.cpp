@@ -39,7 +39,15 @@ int main()
 //    std::cout << std::get<0>(commandStorage.findNodePair("W")) << "\n";
 //    std::cout << std::get<0>(commandStorage.findNodePair("Rusd"))->getValue() << "\n";
 
-    print_simple(commandStorage.find("R"));
+
+    print_simple(commandStorage.find("R "));
+    print_simple(commandStorage.find(" P"));
+    print_simple(commandStorage.find("PP"));
+    print_simple(commandStorage.find("PPy"));
+    print_simple(commandStorage.find("Pe"));
+
+
+    /*print_simple(commandStorage.find("R"));
     print_simple(commandStorage.find("R"));
     print_simple(commandStorage.find("Ru"));
     print_simple(commandStorage.find("Rus"));
@@ -54,7 +62,7 @@ int main()
     print_simple(commandStorage.find("Pywr"));
     print_simple(commandStorage.find("Pywr"));
     print_simple(commandStorage.find("Pywqwqwqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"));
-    print_simple(commandStorage.find(""));
+    print_simple(commandStorage.find(""));*/
 
 
     /*std::cout << std::get<0>(commandStorage.findNodePair("C"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C"))->getValue() << "\n";

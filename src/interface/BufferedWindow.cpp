@@ -70,20 +70,6 @@ void BufferedWindow::init()
 
     keypad(this->window, TRUE);
 
-    /*this->buffer.resize(this->height);
-    for (int i = 0; i < this->height; i++)
-    {
-        this->buffer[i] = new std::vector<__BufferItem*>(this->width);
-    }
-
-    for (int i = 0; i < this->height; i++)
-    {
-        for (int n = 0; n < this->width; n++)
-        {
-            (*this->buffer[i])[n] = new __BufferItem(PREM_SPECIAL_SYMBOL);
-        }
-    }*/
-
     // read data from specified file
     if (this->filename)
     {

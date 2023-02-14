@@ -1,6 +1,6 @@
 
-#ifndef _EXCEPTIONS
-#define _EXCEPTIONS
+#ifndef _EXCEPTIONS_H_
+#define _EXCEPTIONS_H_
 
 
 
