@@ -354,6 +354,7 @@ void BufferedWindow::deleteBefore()
 
     }
 
+    __find_current_word();
     __from_buffer_to_window();
 }
 
@@ -399,6 +400,7 @@ void BufferedWindow::deleteCurrentChar()
 
     }
 
+    __find_current_word();
     __from_buffer_to_window();
 }
 
@@ -406,6 +408,12 @@ void BufferedWindow::deleteCurrentChar()
 void BufferedWindow::modifyBuffer(wint_t* character)
 {
     // call when user modifing the text
+
+    if ((char)(*character) != ' ')
+        __current_word += static_cast<char>(*character);
+    else
+        __current_word = "";
+
 
     std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[__buffer_y]->begin();
     this->buffer[__buffer_y]->insert(
@@ -514,6 +522,72 @@ void BufferedWindow::undo() {}
 
 
 void BufferedWindow::redo() {}
+
+
+std::string BufferedWindow::getCurrentWord() {return __current_word;}
+
+
+void BufferedWindow::__find_current_word()
+{
+    int word_start_pos = __buffer_x;
+    int word_end_pos   = __buffer_x;
+    short done;
+
+
+    if (this->buffer[__buffer_y]->size() == 1)
+    {
+        __current_word = (*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData();
+
+    }
+    else if (this->buffer[__buffer_y]->size() == 0) {
+        __current_word = "";
+    }
+    else {
+        while (true)
+        {
+            done = 0;
+
+            if (word_start_pos > 0)
+            {
+                if ((*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData() != ' ')
+                    word_start_pos--;
+                else
+                    done++;
+            } else {
+                done++;
+            }
+
+
+
+
+            if (word_end_pos < this->buffer[__buffer_y]->size() - 1)
+            {
+                if ((*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ')
+                    word_end_pos++;
+                else
+                    done++;
+            } else {
+                done++;
+            }
+
+            if (done >= 2)
+                break;
+
+        }
+
+    }
+
+//    std::cout << word_start_pos << "|" << word_end_pos << "\n";
+
+
+    /*__current_word = "";
+    for (int i = word_end_pos; i < word_start_pos; i++)
+    {
+        __current_word += (*this->buffer[__buffer_y])[i]->getItemData();
+
+    }*/
+
+}
 
 
 void BufferedWindow::__modify_buffer_coordinates()

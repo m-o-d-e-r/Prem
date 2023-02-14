@@ -63,7 +63,6 @@ class CommandTrie
 {
 private:
     __TrieNode_Ptr __root;
-    std::string __current_word;
 
 public:
     CommandTrie();

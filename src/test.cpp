@@ -51,6 +51,11 @@ int main()
     print_simple(commandStorage.find("Java"));
     print_simple(commandStorage.find("J"));
     print_simple(commandStorage.find("W"));
+    print_simple(commandStorage.find("Pywr"));
+    print_simple(commandStorage.find("Pywr"));
+    print_simple(commandStorage.find("Pywqwqwqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"));
+    print_simple(commandStorage.find(""));
+
 
     /*std::cout << std::get<0>(commandStorage.findNodePair("C"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C"))->getValue() << "\n";
     std::cout << std::get<0>(commandStorage.findNodePair("C#"))->getValue() << "\t" << std::get<1>(commandStorage.findNodePair("C#"))->getValue() << "\n";
