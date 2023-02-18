@@ -420,58 +420,14 @@ void BufferedWindow::copyFromBuffer()
 {
     // fucking fuck...
 
-    int left_border  = __buffer_x;
-    int right_border = __buffer_x;
-    short done;
-
-    while (true)
-    {
-        done = 0;
-
-        if (
-            left_border > 0 &&
-            (*this->buffer[__buffer_y])[left_border - 1]->getItemData() != ' '
-        )
-        {
-            left_border--;
-        } else {
-            done++;
-        }
-
-        if (
-            right_border < this->buffer[__buffer_y]->size() - 1 &&
-            (*this->buffer[__buffer_y])[right_border + 1]->getItemData() != ' '
-        )
-        {
-            right_border++;
-        } else {
-            done++;
-        }
-
-        if (done >= 2)
-            break;
-
-    }
-
-
-    int buff_len = right_border - left_border + 1;
-    __PremChar* __text_buffer = new __PremChar[buff_len];
-
-    for (int i = left_border; i < buff_len; i++)
-    {
-        __text_buffer[i] = (*this->buffer[__buffer_y])[i]->getItemData();
-
-    }
+    __find_current_word();
 
 
     gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-
-    gtk_clipboard_set_text(clip, __text_buffer, buff_len);
-
-
-    delete __text_buffer;
+    
+    gtk_clipboard_set_text(clip, __current_word.c_str(), __current_word.size());
 
 }
 
@@ -524,63 +480,57 @@ void BufferedWindow::doAutocomplete()
 
 void BufferedWindow::__find_current_word()
 {
+    if (this->buffer[__buffer_y]->size() == 0)
+    {
+        __current_word = "";
+        return;
+    }
+
+
     int word_start_pos = __buffer_x;
     int word_end_pos   = __buffer_x;
     short done;
 
 
-    if (this->buffer[__buffer_y]->size() == 1)
+    while (true)
     {
-        __current_word = (*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData();
+        done = 0;
 
-    }
-    else if (this->buffer[__buffer_y]->size() == 0) {
-        __current_word = "";
-    }
-    else {
-        while (true)
+        if (word_start_pos > 0)
         {
-            done = 0;
-
-            if (word_start_pos > 0)
-            {
-                if ((*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData() != ' ')
-                    word_start_pos--;
-                else
-                    done++;
-            } else {
+            if ((*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData() != ' ')
+                word_start_pos--;
+            else
                 done++;
-            }
-
-
-
-
-            if (word_end_pos < this->buffer[__buffer_y]->size() - 1)
-            {
-                if ((*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ')
-                    word_end_pos++;
-                else
-                    done++;
-            } else {
-                done++;
-            }
-
-            if (done >= 2)
-                break;
-
+        } else {
+            done++;
         }
 
+
+
+
+        if (word_end_pos < this->buffer[__buffer_y]->size() - 1)
+        {
+            if ((*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ')
+                word_end_pos++;
+            else
+                done++;
+        } else {
+            done++;
+        }
+
+        if (done >= 2)
+            break;
+
     }
 
-//    std::cout << word_start_pos << "|" << word_end_pos << "\n";
+//    std::cout << "\n\n" <<  word_start_pos << "|" << word_end_pos << "\n";
 
-
-    /*__current_word = "";
-    for (int i = word_end_pos; i < word_start_pos; i++)
+    __current_word = "";
+    for (int i = word_start_pos; i <= word_end_pos; i++)
     {
         __current_word += (*this->buffer[__buffer_y])[i]->getItemData();
-
-    }*/
+    }
 
 }
 
