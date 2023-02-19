@@ -565,8 +565,22 @@ void BufferedWindow::__find_current_word()
 
 //    std::cout << "\n\n" <<  word_start_pos << "|" << word_end_pos << "\n";
 
+
+    if (word_start_pos == word_end_pos)
+    {
+        __current_word = (*this->buffer[__buffer_y])[word_start_pos]->getItemData();
+        return;
+    }
+
+    if (word_end_pos >= __buffer_x)
+    {
+        word_end_pos++;
+    }
+
+
+
     __current_word = "";
-    for (int i = word_start_pos; i <= word_end_pos; i++)
+    for (int i = word_start_pos; i < word_end_pos; i++)
     {
         __current_word += (*this->buffer[__buffer_y])[i]->getItemData();
     }
