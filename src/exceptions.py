@@ -1,0 +1,9 @@
+
+class BadUrlException(Exception): ...
+
+
+class BadFilePathException(Exception): ...
+
+
+class RequestHandlerException(Exception): ...
+
