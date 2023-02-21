@@ -46,4 +46,19 @@ void print_message(char*, MessageType);
 void print_message(const char*, MessageType);
 
 
+#ifdef DEBUG
+
+#include <fstream>
+
+template <typename T>
+void __DEBUG_PRINT_TO_FILE(std::string path, T data)
+{
+    std::fstream out(path, std::ios_base::out | std::ios_base::trunc);
+    out << data;
+}
+
+#endif
+
+
+
 #endif

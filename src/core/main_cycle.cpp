@@ -150,6 +150,10 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 win.copySingleWord();
                 break;
 
+            case PREM_KEY_CTRL('l'):
+                win.copyCurrentLine();
+                break;
+
             case PREM_KEY_CTRL('v'):
                 win.pasteToBufferedWindow();
                 break;

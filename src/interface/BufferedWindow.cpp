@@ -297,7 +297,7 @@ void BufferedWindow::insertLine()
         this->currentY--;
         this->doScroll(1);
     } else {
-        this->currentY++;        
+        this->currentY++;
     }
 
     this->__from_buffer_to_window();
@@ -439,6 +439,7 @@ void BufferedWindow::modifyBuffer(wint_t* character)
     moveHorizontal(1);
 
     __from_buffer_to_window();
+
 }
 
 
@@ -447,6 +448,9 @@ void BufferedWindow::copySingleWord()
     // fucking fuck...
 
     __find_current_word();
+
+    if (__current_word.size() == 0)
+        return;
 
     clipboard_c* cb = clipboard_new(NULL);
     clipboard_set_text_ex(cb, __current_word.c_str(), __current_word.size(), LCB_CLIPBOARD);
@@ -462,20 +466,27 @@ void BufferedWindow::copySingleWord()
 
 void BufferedWindow::copyCurrentLine()
 {
+    std::string line;
+
+    for (auto item  : *(this->buffer[__buffer_y]))
+    {
+        line += item->getItemData();
+    }
+
+    clipboard_c* cb = clipboard_new(NULL);
+    clipboard_set_text_ex(cb, line.c_str(), line.size(), LCB_CLIPBOARD);
 
 }
 
 
 void BufferedWindow::pasteToBufferedWindow()
 {
-    int l = 5;
-
     gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     std::string buffer_text = (std::string)gtk_clipboard_wait_for_text(clip);
 
- 
+
     for (int i = 0; i < buffer_text.size(); i++)
     {
         this->buffer[__buffer_y]->insert(
@@ -488,9 +499,23 @@ void BufferedWindow::pasteToBufferedWindow()
     if (this->buffer[__buffer_y]->size() < this->width)
     {
         this->currentX += buffer_text.size();
-    } else {
-        this->currentViewX = this->buffer[__buffer_y]->size() - this->width + 1;
-        // FIX
+    }
+
+    else
+    {
+        if (this->currentX + buffer_text.size() < this->width)
+            this->currentX += buffer_text.size();
+        else
+        {
+            if (buffer_text.size() < this->width)
+                this->currentViewX += buffer_text.size();
+            else
+            {
+                this->currentX = this->width - 5;
+                this->currentViewX = this->buffer[__buffer_y]->size() - this->width + 5;
+            }
+
+        }
 
     }
 
@@ -516,74 +541,60 @@ void BufferedWindow::doAutocomplete()
 
 void BufferedWindow::__find_current_word()
 {
-    if (this->buffer[__buffer_y]->size() == 0)
+    __current_word = "";
+
+    if (
+        this->buffer[__buffer_y]->size() == 0 || 
+        __buffer_x == this->buffer[__buffer_y]->size() || 
+        (*this->buffer[__buffer_y])[__buffer_x]->getItemData() == ' '
+    )
     {
-        __current_word = "";
         return;
     }
 
 
     int word_start_pos = __buffer_x;
     int word_end_pos   = __buffer_x;
-    short done;
 
 
     while (true)
     {
-        done = 0;
-
-        if (word_start_pos > 0)
+        if (
+            word_start_pos > 0 &&
+            (*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData() != ' '
+        )
         {
-            if ((*this->buffer[__buffer_y])[word_start_pos - 1]->getItemData() != ' ')
-                word_start_pos--;
-            else
-                done++;
+            word_start_pos--;
+
         } else {
-            done++;
-        }
-
-
-
-
-        if (word_end_pos < this->buffer[__buffer_y]->size() - 1)
-        {
-            if (
-                (*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ' && 
-                (*this->buffer[__buffer_y])[word_end_pos]->getItemData() != ' '
-            )
-                word_end_pos++;
-            else
-                done++;
-        } else {
-            done++;
-        }
-
-        if (done >= 2)
             break;
+        }
 
     }
 
-//    std::cout << "\n\n" <<  word_start_pos << "|" << word_end_pos << "\n";
 
-
-    if (word_start_pos == word_end_pos)
+    while (true)
     {
-        __current_word = (*this->buffer[__buffer_y])[word_start_pos]->getItemData();
-        return;
+        if (
+            word_end_pos < this->buffer[__buffer_y]->size() - 1 && 
+            (*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' '
+        )
+        {
+            word_end_pos++;
+
+        } else {
+            break;
+        }
+
     }
 
-    if (word_end_pos >= __buffer_x)
-    {
-        word_end_pos++;
-    }
 
-
-
-    __current_word = "";
-    for (int i = word_start_pos; i < word_end_pos; i++)
+    for (int i = word_start_pos; i <= word_end_pos; i++)
     {
         __current_word += (*this->buffer[__buffer_y])[i]->getItemData();
     }
+
+//    __DEBUG_PRINT_TO_FILE("/mnt/d/pyrus/PreM/view", fmt::format("{} {} {}", word_start_pos, word_end_pos, __current_word));
 
 }
 
