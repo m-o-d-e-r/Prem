@@ -306,6 +306,7 @@ void BufferedWindow::insertLine()
 
 void BufferedWindow::deleteBefore()
 {
+    // FIX: 
 
     if (__buffer_y== 0 && this->currentX == 0)
         return;
@@ -369,7 +370,7 @@ void BufferedWindow::deleteBefore()
 
     }
 
-    __find_current_word();
+//    __find_current_word();
     __from_buffer_to_window();
 }
 
