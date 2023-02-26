@@ -1,100 +1,41 @@
 
 #include <iostream>
 #include <algorithm>
+#include <tuple>
 
 #include <getopt.h>
 
+#include "../libs/args-parser/all.hpp"
+
 #include "args_preprocessor.h"
+#include "help_functions.h"
+
+#define ArgData std::tuple<char, std::string, bool, bool, std::string, std::string>
 
 
 
-static int __get_length(char* __str)
+class __AvailableArgs
 {
-    int __len = 0;
+public:
+    static std::vector<std::string> __flags;
+    static std::vector<ArgData> __data;
 
-    while (true)
-    {
-        if (__str[__len] != '\0')
-            __len++;
-        else
-            break;
-    }
+};
 
-    return __len;
-}
+std::vector<std::string> __AvailableArgs::__flags = {"-f", "-d", "-i", "-t", "-s", "-r", "-V"};
+std::vector<ArgData> __AvailableArgs::__data = {
+    {'f', "file", true, false, "Path to file", "Specify path to file to open for edit"},
+    {'d', "dict", true, false, "Set curent dict to use autocomplete", "Set name for dict"},
 
+    {'i', "install", true, false, "Instal", ""},
+    {'t', "tag", true, false, "xPath to container", ""},
+    {'s', "site", true, false, "Set site url to parse data", ""},
 
-static void __print_error_pointer(int argc, char** argv)
-{
-    int _global_cli_length = 0;
-
-
-    fmt::print("\n");
-
-    for (int i = 0; i < argc; i++)
-    {
-        if (i < optind)
-            _global_cli_length += __get_length(argv[i]) + 1;
-
-        fmt::print(
-            fg(fmt::color::dark_cyan),
-            "{} ",
-            argv[i]
-        );
-
-    }
-
-    fmt::print(
-        fg(fmt::color::orange_red),
-        "\n{:>{}}\n",
-        "^",
-        _global_cli_length - 1
-    );
+    {'r', "remove", true, false, "Specify dict name to remove from your computer", ""},
+    {'V', "version", false, false, "Show version", ""}
+};
 
 
-}
-
-
-static void __double_definition_check(ArgsInfo* args_info, char option, int argc, char** argv)
-{
-    if (!args_info->mapCounter[option])
-    {
-        args_info->mapCounter[option]++;
-        args_info->mapValues[option] = optarg;
-    } else {
-        __print_error_pointer(argc, argv);
-
-        fmt::print(
-            fg(fmt::color::orange_red),
-            "\targs preprocessor: detected double definition -- '{}'\n\n",
-            option
-        );
-        exit(2);
-    }
-}
-
-
-static void __one_cli_argument_check(ArgsInfo* args_info, char option, int argc, char** argv)
-{
-    std::map<char, uint8_t>::iterator _map_iterator = args_info->mapCounter.begin();
-
-    for (; _map_iterator != args_info->mapCounter.end(); _map_iterator++)
-    {
-        if (_map_iterator->first == option)
-            continue;
-
-        if (_map_iterator->second)
-        {
-            __print_error_pointer(argc, argv);
-
-            fmt::print(
-                fg(fmt::color::orange_red),
-                "\targs preprocessor: bad argument usage. (Usage: prem [Option]) you can use only one allowed key\n\n"
-            );
-            exit(2);
-        }
-    }
-}
 
 
 
@@ -111,78 +52,62 @@ ArgsPreprocessor::~ArgsPreprocessor()
 
 void ArgsPreprocessor::parse(int argc, char** argv)
 {
-    int _opt;
-    int _iteration = 0;
+    using namespace Args;
 
+    CmdLine cmd( argc, argv );
 
-    while((_opt = getopt(argc, argv, ":f:i:r:Vh")) != -1)
+    for (ArgData item : __AvailableArgs::__data)
     {
-        switch(_opt)
+        cmd.addArgWithFlagAndName(
+            std::get<0>(item),
+            std::get<1>(item),
+            std::get<2>(item),
+            std::get<3>(item),
+            std::get<4>(item),
+            std::get<5>(item)
+        );
+
+    }
+    cmd.addHelp(true, argv[0], "Console editor created just for fun)");
+
+    try {
+        cmd.parse();
+
+    }
+    catch( const HelpHasBeenPrintedException & )
+    {
+        exit(0);
+    }
+    catch( const BaseException & x )
+    {
+        outStream() << x.desc() << "\n";
+        exit(1);
+    }
+
+
+    for (auto item : __AvailableArgs::__flags)
+    {
+        if (cmd.isDefined(item))
         {
-        case 'f':
-            __double_definition_check(this->args_info, 'f', argc, argv);
-            __one_cli_argument_check(this->args_info, 'f', argc, argv);
-            break;
-
-        case 'i':
-            __double_definition_check(this->args_info, 'i', argc, argv);
-            __one_cli_argument_check(this->args_info, 'i', argc, argv);
-            break;
-
-        case 'r':
-            __double_definition_check(this->args_info, 'r', argc, argv);
-            __one_cli_argument_check(this->args_info, 'r', argc, argv);
-            break;
-
-        case 'V':
-            __double_definition_check(this->args_info, 'V', argc, argv);
-            __one_cli_argument_check(this->args_info, 'V', argc, argv);
-            break;
-
-        case 'h':
-            __double_definition_check(this->args_info, 'h', argc, argv);
-            __one_cli_argument_check(this->args_info, 'h', argc, argv);
-            break;
-
-        /*case 'g':
-            __double_definition_check(this->args_info, 'g', argc, argv);
-            __one_cli_argument_check(this->args_info, 'g', argc, argv);
-            break;*/
-
-        case '?':
-            __print_error_pointer(argc, argv);
-
-            fmt::print(
-                fg(fmt::color::orange_red),
-                "\targs preprocessor: invalid option -- '{}'\n\n",
-                (char)optopt
-            );
-            exit(2);
-            break;
-
-        case ':':
-            __print_error_pointer(argc, argv);
-
-            fmt::print(
-                fg(fmt::color::orange_red),
-                "\targs preprocessor: option requires an argument -- '{}'\n\n",
-                (char)optopt
-            );
-            exit(2);
-            break;
-
+            this->args_info->cmdValues[item] = cmd.value(item);
+        } else {
+            this->args_info->cmdValues[item] = "$";
         }
 
     }
 
-
-    /*if (cmdline_parser (argc, argv, this->args_info) != 0)
-        exit(1);*/
-
 }
 
 
-void ArgsPreprocessor::__show_args_map() {}
+void ArgsPreprocessor::__show_args_map()
+{
+    for (auto item : this->args_info->cmdValues)
+    {
+        std::cout << item.first << " " << item.second << "\n";
+    }
+    std::cout << "\n";
+
+}
 
 
 ArgsInfo* ArgsPreprocessor::getArgsInfo() {return this->args_info;}

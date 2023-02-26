@@ -5,9 +5,12 @@
 #include <sys/stat.h>
 #include <pwd.h>
 
+#include <fmt/color.h>
+#include <fmt/printf.h>
+
 #include "args_router.h"
 #include "main_cycle.h"
- 
+
 
 
 ArgsRouter::ArgsRouter(ArgsInfo* args_info, ConfigReader* config)
@@ -20,20 +23,20 @@ ArgsRouter::ArgsRouter(ArgsInfo* args_info, ConfigReader* config)
 
 void ArgsRouter::run()
 {
-    if (this->args_info->mapCounter['f'])
+    if (this->args_info->cmdValues["-f"] != "$")
     {
-        premGeneralLifeCycle(this->_config, this->args_info->mapValues['f']);
+        premGeneralLifeCycle(this->_config, const_cast<char*>(this->args_info->cmdValues["-f"].c_str()));
 
     }
-    else if (this->args_info->mapCounter['i'])
+    else if (this->args_info->cmdValues["-i"] != "$")
     {
-        fmt::print("TODO: Install new dict {}\n", this->args_info->mapValues['i']);
+        fmt::print("TODO: Install new dict {}\n", this->args_info->cmdValues["-i"]);
     }
-    else if (this->args_info->mapCounter['r'])
+    else if (this->args_info->cmdValues["-r"] != "$")
     {
-        fmt::print("TODO: Remove dict {}\n", this->args_info->mapValues['r']);
+        fmt::print("TODO: Remove dict {}\n", this->args_info->cmdValues["-r"]);
     }
-    else if (this->args_info->mapCounter['V'])
+    else if (this->args_info->cmdValues["-V"] != "$")
     {
         fmt::print(
             fg(fmt::color::dark_cyan),
@@ -42,50 +45,5 @@ void ArgsRouter::run()
         );
 
     }
-    else if (this->args_info->mapCounter['h'])
-    {
-        fmt::print(
-            fg(fmt::color::dark_cyan),
-            "\tVersion: {}\n",
-            this->_config->getTableByName("info")["program"]["version"].value_or("Error")
-        );
-
-        fmt::print(
-            fg(fmt::color::dark_cyan),
-            "\n  -f          Specify path to file"
-            "\n  -i          Install new dict (need path to folder)"
-            "\n  -r          Remove dict by name"
-            "\n  -V          Show program version"
-            "\n  -h          Show help text"
-            //"\n  -g          Make global config"
-            "\n\n"
-        );
-
-    }/*
-    else if (this->args_info->mapCounter['g'])
-    {
-        char* __folder_name = "/.prem";
-
-
-        passwd* pw = getpwuid(getuid());
-        char* homedir = pw->pw_dir;
-
-        fmt::print(fg(fmt::color::dark_cyan), "\tStart global config\n\n");
-
-        fmt::print(
-            "Home dir: {}\n",
-            homedir
-        );
-
-
-        int mkdir_status = mkdir(strcat(homedir, __folder_name), 0775);
-
-        if (!mkdir_status)
-        {
-            fmt::print(fg(fmt::color::dark_cyan), "\tFolder {} created\n\n", homedir);
-        } else {
-            fmt::print(fg(fmt::color::orange_red), "\tUnable to create {} folder\n\n", homedir);
-        }
-    }*/
 
 }
