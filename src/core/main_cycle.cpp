@@ -5,14 +5,21 @@
 #include "../interface/WindowContainer.h"
 #include "../core/PremStructs/Trie.h"
 #include "../core/help_functions.h"
+#include "../core/state_machine.h"
 
 #define PREM_KEY_ENTER 13
 #define PREM_KEY_CTRL(x) ((x) & 0x1f)
+#define PREM_KEY_ESC 27
 
 
 
 void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 {
+    StateMachine stateMachine;
+
+
+
+
     initscr();
 
     /*BufferedWindow* editorWorkPlace = nullptr;
@@ -170,7 +177,18 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 break;
             }
 
+            case PREM_KEY_ESC:
+                stateMachine.set_default_state();
+                break;
+
             default:
+                if (static_cast<char>(*input) == ' ')
+                {
+                    stateMachine.set_default_state();
+                } else {
+                    stateMachine.set_current_state(PremStates::SHOW_HINTS);
+                }
+
                 win.modifyBuffer(input);
                 keyBarWindow.updateStorage(
                     commandStorage.find(win.getCurrentWord())
