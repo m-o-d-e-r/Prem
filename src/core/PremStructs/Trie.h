@@ -26,8 +26,8 @@
 class TrieNode;
 #define __TrieNode_Ptr std::shared_ptr<TrieNode>
 #define __make_TrieNode_Ptr std::make_shared
-#define __FondedWords std::vector<std::string>
-#define __TrieNodePair std::tuple<__TrieNode_Ptr, __TrieNode_Ptr, std::string>
+#define __TrieData std::vector<std::string>
+#define __TrieNodePair std::tuple<__TrieNode_Ptr, int>
 
 
 
@@ -35,7 +35,6 @@ class TrieNode
 {
 private:
     std::vector<__TrieNode_Ptr> __childs;
-    bool __visited     = false;
     char __value       = '$';
     bool __end_of_word = false;
 
@@ -44,11 +43,7 @@ public:
     TrieNode(char value, bool is_eow);
     ~TrieNode();
 
-    void setValue(char value);
     char getValue();
-
-    bool isVisited();
-    void makeVisited(bool status = true);
 
     bool isEndOfWord();
 
@@ -63,18 +58,21 @@ class CommandTrie
 {
 private:
     __TrieNode_Ptr __root;
+    std::string __current_word;
+    std::string __prefix;
+
+    __TrieData* __data;
 
 public:
     CommandTrie();
     ~CommandTrie();
 
     void insert(std::string str);
-
-    __FondedWords* find(std::string str);
-    __TrieNodePair findNodePair(std::string str);
+    __TrieData* find(std::string str);
 
 private:
-    void __setUnvisited(__TrieNode_Ptr start);
+    __TrieNodePair __get_last_valid_node(std::string str);
+    void __build_trie_data(__TrieNode_Ptr&);
 
 };
 

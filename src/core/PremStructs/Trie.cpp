@@ -5,6 +5,7 @@
 #include "Trie.h"
 
 
+
 TrieNode::TrieNode() {__DEBUG_CALL_CONSTRUCTOR(__value);}
 
 
@@ -19,16 +20,7 @@ TrieNode::TrieNode(char value, bool is_eow)
 TrieNode::~TrieNode() {__DEBUG_CALL_DESTRUCTOR(__value);}
 
 
-void TrieNode::setValue(char value) {__value = value;}
-
-
 char TrieNode::getValue() {return __value;}
-
-
-bool TrieNode::isVisited() {return __visited;}
-
-
-void TrieNode::makeVisited(bool status) {__visited = status;}
 
 
 bool TrieNode::isEndOfWord() {return __end_of_word;}
@@ -92,159 +84,90 @@ void CommandTrie::insert(std::string str)
 
         str.erase(0, 1);
     }
+
 }
 
 
-__FondedWords* CommandTrie::find(std::string str)
+__TrieData* CommandTrie::find(std::string str)
 {
-    __TrieNodePair node_pair    = findNodePair(str);
-    __TrieNode_Ptr parent_node  = std::get<0>(node_pair);
-    __TrieNode_Ptr current_node = std::get<1>(node_pair);
-    std::string prefix          = std::get<2>(node_pair);
+    if (!str.length())
+        return nullptr;
 
+    __data = new __TrieData;
 
-    if (!parent_node)
+    __TrieNodePair node_pair = __get_last_valid_node(str);
+    __TrieNode_Ptr last_valid_node = std::get<0>(node_pair);
+
+    if (!last_valid_node)
         return nullptr;
 
 
-    __FondedWords* fonded_strings_data = new __FondedWords;
-
-    std::stack<__TrieNode_Ptr> node_stack;
-    node_stack.push(current_node);
-
-    std::string word;
-
-
-    __TrieNode_Ptr top_stack_node;
-    while (!node_stack.empty())
+    for (int i = 0; i < std::get<1>(node_pair) - 1; i++)
     {
-        top_stack_node = node_stack.top();
-
-        if (!top_stack_node->isVisited())
-        {
-            word += top_stack_node->getValue();
-        }
-
-
-        if (top_stack_node->getChilds().size() > 0)
-        {
-            int n_count = 0;
-            for (auto item : top_stack_node->getChilds())
-            {
-                if (!item->isVisited())
-                {
-                    node_stack.push(item);
-                }
-                else
-                    n_count++;
-            }
-
-            if (n_count == top_stack_node->getChilds().size())
-            {
-                if (top_stack_node->isEndOfWord())
-                {
-                    fonded_strings_data->push_back(prefix + word);
-                }
-
-                top_stack_node->makeVisited();
-                node_stack.pop();
-                word.erase(word.length() - 1);
-            }
-
-        } else {
-            fonded_strings_data->push_back(prefix + word);
-
-            node_stack.pop();
-            word.erase(word.length() - 1);
-        }
-
-        top_stack_node->makeVisited();
-
+        __prefix += str[i];
     }
 
-    __setUnvisited(parent_node);
+    __build_trie_data(last_valid_node);
 
 
-    return fonded_strings_data;
+    return __data;
+}
+
+
+__TrieNodePair CommandTrie::__get_last_valid_node(std::string str)
+{
+    __TrieNode_Ptr current_node = __root;
+    char current_char;
+    bool exist;
+    int index = 0;
+
+
+    while (true)
+    {
+        if (!current_node->getChilds().size())
+            return {nullptr, 0};
+
+        current_char = str[0];
+        exist = false;
+
+
+        for (auto item : current_node->getChilds())
+        {
+            if (item->getValue() == current_char)
+            {
+                current_node = item;
+                exist = true;
+                break;
+            }
+        }
+
+        if (!exist)
+            break;
+
+        str.erase(0, 1);
+        index++;
+    }
+
+    if (current_node->getValue() == '$')
+        return {nullptr, 0};
+
+    return {current_node, index};
 
 }
 
 
-__TrieNodePair CommandTrie::findNodePair(std::string str)
+void CommandTrie::__build_trie_data(__TrieNode_Ptr& node)
 {
-    std::stack<__TrieNode_Ptr> node_stack;
-    node_stack.push(__root);
-
-    int char_index = 0;
-    std::string prefix;
-
-    __TrieNode_Ptr parent_node = nullptr;
-    __TrieNode_Ptr current_node;
-    while (!node_stack.empty())
+    for (auto item : node->getChilds())
     {
-        current_node = node_stack.top();
-        node_stack.pop();
-
-        if (current_node->getChilds().size() > 0)
-        {
-            int counter = 0;
-
-            for (auto item : current_node->getChilds())
-            {
-                if (item->getValue() == str[char_index])
-                {
-                    if (!parent_node)
-                    {
-                        parent_node = item;
-                    }
-
-                    prefix += item->getValue();
-                    node_stack.push(item);
-                    char_index++;
-
-                }
-
-            }
-
-        }
-
+        __current_word += node->getValue();
+        __build_trie_data(item);
+        __current_word.erase(__current_word.length() - 1);
     }
 
-    if (prefix.length() > 0)
-        prefix.erase(prefix.length() - 1);
-    return {parent_node, current_node, prefix};
-
-}
-
-
-void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
-{
-    std::stack<__TrieNode_Ptr> node_stack;
-    node_stack.push(start);
-
-
-    while (!node_stack.empty())
+    if (node->isEndOfWord())
     {
-        __TrieNode_Ptr current_node = node_stack.top();
-        node_stack.pop();
-
-        if (current_node->isVisited())
-        {
-            current_node->makeVisited(false);
-        }
-
-//        std::cout << current_node->getValue() << "\n";
-
-        if (current_node->getChilds().size() > 0)
-        {
-            for (auto item : current_node->getChilds())
-            {
-                node_stack.push(item);
-
-            }
-
-        }
-
+        __data->push_back(__prefix + __current_word + node->getValue());
     }
 
 }
