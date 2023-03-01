@@ -25,6 +25,7 @@ add_executable(prem
     src/core/help_functions.cpp
 
     src/core/state_machine.cpp
+    src/core/dict_reader.cpp
 
     src/libs/clipboard/src/clipboard_x11.c
     src/libs/clipboard/src/clipboard_common.c
