@@ -8,10 +8,11 @@ void test(CommandTrie commandStorage, std::string s)
 {
     std::cout << "---- '" << s << "' ----\n";
 
-    __TrieData* data = commandStorage.find(s);
-    if (data)
+    __TrieData data = commandStorage.find(s);
+
+    if (data.size())
     {
-        for (auto item : *data)
+        for (auto item : data)
         {
             std::cout << item << std::endl;
         }
@@ -37,6 +38,11 @@ int main()
     commandStorage.insert("ascii_download_enable");
     commandStorage.insert("ascii_upload_enable");
     commandStorage.insert("async_abor_enable");
+    commandStorage.insert("listen");
+    commandStorage.insert("listen_ipv6");
+    commandStorage.insert("local_enable");
+    commandStorage.insert("lock_upload_files");
+    commandStorage.insert("log_ftp_protocol");
 
     test(commandStorage, "a");
     test(commandStorage, "an");
@@ -44,10 +50,15 @@ int main()
     test(commandStorage, "anon");
     test(commandStorage, "anon_");
     test(commandStorage, "");
+    test(commandStorage, "l");
     test(commandStorage, " ");
     test(commandStorage, "$");
+    test(commandStorage, "li");
     test(commandStorage, "q");
     test(commandStorage, "qwqw");
+    test(commandStorage, "anon_mkdir_write_enableksldklsakdl;ksaldklsa;kd");
+    test(commandStorage, "l");
+
 
     return 0;
 

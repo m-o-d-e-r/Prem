@@ -61,14 +61,14 @@ private:
     std::string __current_word;
     std::string __prefix;
 
-    __TrieData* __data;
+    __TrieData __data;
 
 public:
     CommandTrie();
     ~CommandTrie();
 
     void insert(std::string str);
-    __TrieData* find(std::string str);
+    __TrieData& find(std::string str);
 
 private:
     __TrieNodePair __get_last_valid_node(std::string str);

@@ -88,18 +88,18 @@ void CommandTrie::insert(std::string str)
 }
 
 
-__TrieData* CommandTrie::find(std::string str)
+__TrieData& CommandTrie::find(std::string str)
 {
     if (!str.length())
-        return nullptr;
+        return __data;
 
-    __data = new __TrieData;
+    __data.clear();
 
     __TrieNodePair node_pair = __get_last_valid_node(str);
     __TrieNode_Ptr last_valid_node = std::get<0>(node_pair);
 
     if (!last_valid_node)
-        return nullptr;
+        return __data;
 
 
     for (int i = 0; i < std::get<1>(node_pair) - 1; i++)
@@ -167,7 +167,7 @@ void CommandTrie::__build_trie_data(__TrieNode_Ptr& node)
 
     if (node->isEndOfWord())
     {
-        __data->push_back(__prefix + __current_word + node->getValue());
+        __data.push_back(__prefix + __current_word + node->getValue());
     }
 
 }
