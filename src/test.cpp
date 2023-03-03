@@ -44,6 +44,8 @@ int main()
     commandStorage.insert("lock_upload_files");
     commandStorage.insert("log_ftp_protocol");
 
+    test(commandStorage, "anno");
+    test(commandStorage, "annno");
     test(commandStorage, "a");
     test(commandStorage, "an");
     test(commandStorage, "ano");

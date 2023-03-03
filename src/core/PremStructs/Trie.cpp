@@ -1,6 +1,7 @@
 
 #include <stack>
 #include <iostream>
+#include <fstream>
 
 #include "Trie.h"
 
@@ -109,7 +110,7 @@ __TrieData& CommandTrie::find(std::string str)
 
     __build_trie_data(last_valid_node);
 
-
+    __prefix = "";
     return __data;
 }
 
