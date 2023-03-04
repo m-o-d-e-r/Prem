@@ -1,2 +1,2 @@
 [path]
-dictionaries_path = [""]
+dict_path = ["$/.prem/dict"]
