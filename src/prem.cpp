@@ -31,9 +31,9 @@ int main(int argc, char** argv)
 
 
     /*clipboard_c* cb = clipboard_new(NULL);
-    clipboard_set_text_ex(cb, "Hello 123", 5, LCB_CLIPBOARD);
+    clipboard_set_text_ex(cb, "Hello 123", 5, LCB_CLIPBOARD);*/
 
-    int l = 5;
+    /*int l = 5;
     char* some_text_from_clipboard = clipboard_text_ex(cb, &l, LCB_CLIPBOARD);
 
     std::cout << some_text_from_clipboard << '\n';*/

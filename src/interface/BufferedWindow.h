@@ -43,14 +43,17 @@ public:
 
     void doScroll(int);
     void moveHorizontal(int);
+    void mouseMovement(MEVENT*);
 
     void insertLine();
     void deleteBefore();
     void deleteCurrentChar();
     void modifyBuffer(wint_t*);
 
-    void copyFromBuffer();
-    void pasteToBuffer();
+    void copySingleWord();
+    void copyCurrentLine();
+    void pasteToBufferedWindow();
+
     void undo();
     void redo();
 

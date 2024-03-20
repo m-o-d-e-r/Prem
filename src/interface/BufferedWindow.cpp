@@ -7,10 +7,14 @@
 #include <locale.h>
 #include <codecvt>
 
-#include <gtk/gtk.h>
+#include <gtk/gtk.h> // find somathing differ from it
 
 #include "../core/help_functions.h"
 #include "BufferedWindow.h"
+
+#include <xcb/xcb.h>
+#include "../libs/clipboard/include/libclipboard.h"
+
 
 #define PREM_SPECIAL_SYMBOL L'@'
 
@@ -42,8 +46,8 @@ BufferedWindow::~BufferedWindow()
 {
     // call window destructor
 
-    wclear(this->window);
     delwin(this->window);
+    endwin();
 
 
     // clear the buffer
@@ -69,6 +73,7 @@ void BufferedWindow::init()
     this->window = newwin(this->height, this->width, __win_dY, __win_dX);
 
     keypad(this->window, TRUE);
+//    mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
 
     // read data from specified file
     if (this->filename)
@@ -226,6 +231,27 @@ void BufferedWindow::moveHorizontal(int dX)
 
 
     __from_buffer_to_window();
+
+}
+
+
+void BufferedWindow::mouseMovement(MEVENT* mouse_event)
+{
+    wmove(
+        this->window,
+        mouse_event->y - __win_dY,
+        mouse_event->x - __win_dX
+    );
+    wrefresh(this->window);
+
+    /*this->currentX = mouse_event->x - __win_dX;
+    this->currentY = mouse_event->y - __win_dY;*/
+
+//    __modify_buffer_coordinates();
+
+//    wmove(this->window, this->currentY, this->currentX);
+
+//    this->update();
 
 }
 
@@ -416,24 +442,34 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 }
 
 
-void BufferedWindow::copyFromBuffer()
+void BufferedWindow::copySingleWord()
 {
     // fucking fuck...
 
     __find_current_word();
 
+    clipboard_c* cb = clipboard_new(NULL);
+    clipboard_set_text_ex(cb, __current_word.c_str(), __current_word.size(), LCB_CLIPBOARD);
 
-    gtk_init(0, 0);
+    /*gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-    
-    gtk_clipboard_set_text(clip, __current_word.c_str(), __current_word.size());
+
+    gtk_clipboard_set_text(clip, __current_word.c_str(), __current_word.size());*/
 
 }
 
 
-void BufferedWindow::pasteToBuffer()
+void BufferedWindow::copyCurrentLine()
 {
+
+}
+
+
+void BufferedWindow::pasteToBufferedWindow()
+{
+    int l = 5;
+
     gtk_init(0, 0);
 
     GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
@@ -511,7 +547,10 @@ void BufferedWindow::__find_current_word()
 
         if (word_end_pos < this->buffer[__buffer_y]->size() - 1)
         {
-            if ((*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ')
+            if (
+                (*this->buffer[__buffer_y])[word_end_pos + 1]->getItemData() != ' ' && 
+                (*this->buffer[__buffer_y])[word_end_pos]->getItemData() != ' '
+            )
                 word_end_pos++;
             else
                 done++;

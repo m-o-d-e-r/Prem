@@ -147,12 +147,24 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 break;
 
             case PREM_KEY_CTRL('c'):
-                win.copyFromBuffer();
+                win.copySingleWord();
                 break;
 
             case PREM_KEY_CTRL('v'):
-                win.pasteToBuffer();
+                win.pasteToBufferedWindow();
                 break;
+
+            case KEY_MOUSE:
+            {
+                MEVENT mouse_event;
+
+                if (getmouse(&mouse_event) == OK)
+                {
+                    win.mouseMovement(&mouse_event);
+                }
+
+                break;
+            }
 
             default:
                 win.modifyBuffer(input);
