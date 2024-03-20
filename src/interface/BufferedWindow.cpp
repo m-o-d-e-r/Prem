@@ -382,16 +382,19 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 
     std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[lineIndex]->begin();
     this->buffer[lineIndex]->insert(
-        bufferLineIter + this->currentX,
+        bufferLineIter + this->currentX + this->currentViewX,
         new __BufferItem(*character)
     );
 
-    if (this->currentX != this->width - 1)
+
+    if (this->buffer[lineIndex]->size() < this->width)
     {
         this->currentX++;
     }
-
-//    this->bufferLineSize[lineIndex]++;
+    else if (this->currentViewX != 0)
+    {
+        this->currentViewX++;
+    }
 
     __from_buffer_to_window();
 }
