@@ -1,16 +1,18 @@
-#ifndef MAIN_WINDOW_H_
+/*#ifndef MAIN_WINDOW_H_
 #define MAIN_WINDOW_H_
 
 #include <ncurses.h>
 
 #include "PremCycle.h"
-
+#include "PremStructs/Trie.h"
 
 
 
 class MainWindow
 {
 private:
+    CommandTrie trieObject;
+
     WINDOW* codeEditorWin;
     WINDOW* userHintWin;
     WINDOW* statusBarWin;
@@ -49,3 +51,4 @@ public:
 
 
 #endif
+*/

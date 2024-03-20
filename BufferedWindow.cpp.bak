@@ -1,0 +1,380 @@
+
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <locale.h>
+
+#include "BufferedWindow.h"
+
+
+#define PREM_SPECIAL_SYMBOL '\n'
+#define PREM_SPECIAL_WCHAR_SYMBOL 10
+
+ 
+
+BufferedWindow::BufferedWindow(WinSize size, char* filename): BaseWindow(size)
+{
+    this->filename = filename;
+    init();
+}
+
+
+BufferedWindow::BufferedWindow(int width, int height, char* filename): BaseWindow(width, height)
+{
+    this->filename = filename;
+    init();
+}
+
+
+BufferedWindow::~BufferedWindow()
+{
+    // call window destructor
+
+    delwin(this->window);
+
+
+    // clear the buffer
+    for (int i = 0; i < this->height; i++)
+    {
+        if (this->buffer[i])
+            delete this->buffer[i];
+    }
+
+}
+
+
+WINDOW* BufferedWindow::getWindow() {return this->window;}
+
+
+void BufferedWindow::init()
+{
+    // initialize ncurses window
+    this->window = newwin(this->height, this->width, 0, 0);
+
+    keypad(this->window, TRUE);
+
+
+    // initialize window buffer
+
+    this->buffer.resize(this->height);
+    for (int i = 0; i < this->height; i++)
+    {
+        this->buffer[i] = new PREM_BUFFER_ITEM[this->width];
+    }
+
+    for (int i = 0; i < this->height; i++)
+    {
+        for (int n = 0; n < this->width; n++)
+        {
+        #ifdef PREM_USE_CHAR_BUFFER
+            this->buffer[i][n] = PREM_SPECIAL_SYMBOL;
+        #else
+            this->buffer[i][n] = to_cchar_t(PREM_SPECIAL_WCHAR_SYMBOL);
+        #endif
+        }
+    }
+
+    // read data from specified file
+    if (this->filename)
+    {
+        this->__from_file_to_buffer();
+    }
+
+    this->__from_buffer_to_window();
+    wmove(this->window, this->currentY, this->currentX);
+    this->update();
+}
+
+
+void BufferedWindow::update() {wrefresh(this->window);}
+
+
+void BufferedWindow::doScroll(int dY)
+{
+    // change current Y-value and update visible window area
+
+
+    if (
+        (this->currentY + dY >= 0) &&
+        (this->currentY + dY < this->height)
+    )
+    {
+        if (
+            (this->currentY + dY == 0) ||
+            (this->currentY + dY == this->height - 1)
+        )
+        {
+            if (
+                (this->currentViewY + dY >= 0) &&
+                (this->currentViewY + dY + this->height < this->buffer.size())
+            )
+            {
+                this->currentViewY += dY;
+            }
+
+            if (
+                (this->currentViewY != 0) &&
+                (this->currentViewY + this->height != this->buffer.size() - 1)
+            )
+                this->currentY += -dY;
+        }
+
+        this->currentY += dY;
+
+
+        while (this->buffer[this->currentViewY + this->currentY][this->currentX] == PREM_SPECIAL_SYMBOL)
+        {
+            this->currentX--;            
+        }
+
+        __from_buffer_to_window();
+    }
+
+}
+
+
+void BufferedWindow::moveHorizontal(int dX)
+{
+    int lineIndex = this->currentViewY + this->currentY;
+
+    if (this->currentX + dX < 0)
+    {
+        if (lineIndex - 1 >= 0)
+        {
+            this->currentX = 0;
+            while (this->buffer[lineIndex - 1][this->currentX] != PREM_SPECIAL_SYMBOL)
+            {
+                this->currentX++;
+            }
+        }
+
+        if (this->currentY == 1 && this->currentViewY != 0)
+        {
+            this->doScroll(-1);
+        }
+        else if (lineIndex - 1 >= 0)
+        {
+            this->currentY--;
+        }
+
+    }
+    else if (
+        (this->currentX + dX > this->width - 1) ||
+        (
+            (this->buffer[lineIndex][this->currentX] == PREM_SPECIAL_SYMBOL) &&
+            (this->buffer[lineIndex][this->currentX + dX] == PREM_SPECIAL_SYMBOL)
+        )
+    )
+    {
+            this->currentX = 0;
+            this->doScroll(1);
+
+    }
+    else if (dX > 0)
+    {
+        if (this->buffer[lineIndex][this->currentX] != PREM_SPECIAL_SYMBOL)
+            this->currentX += dX;
+    } else {
+        this->currentX += dX;        
+    }
+
+    wmove(this->window, this->currentY, this->currentX);
+    this->update();
+}
+
+
+void BufferedWindow::insertLine()
+{
+    int lineIndex = this->currentViewY + this->currentY + 1;
+
+    std::vector<PREM_BUFFER_ITEM*>::iterator newLineIter = this->buffer.begin();
+    newLineIter += lineIndex;
+
+    this->buffer.insert(newLineIter, new PREM_BUFFER_ITEM[this->width]);
+
+    // clear new line
+    for (int n = 0; n < this->width; n++)
+    {
+        this->buffer[lineIndex][n] = PREM_SPECIAL_SYMBOL;
+    }
+
+    // copy data from the latest line befor current
+    int newLineX = 0;
+    for (int n = this->currentX; n < this->width; n++, newLineX++)
+    {
+        this->buffer[lineIndex][newLineX] = this->buffer[lineIndex - 1][n];
+    }
+
+    // clear line befor current
+    for (int n = this->currentX; n < this->width; n++)
+    {
+        this->buffer[lineIndex - 1][n] = PREM_SPECIAL_SYMBOL;
+    }
+
+    this->currentX = 0;
+    this->currentY++;
+
+    this->__from_buffer_to_window();
+
+}
+
+
+void BufferedWindow::deleteChar(int status)
+{
+    int lineIndex = this->currentViewY + this->currentY;
+
+    this->currentX += status;
+    for (int i = this->currentX; i < this->width - 1; i++)
+    {
+        this->buffer[lineIndex][i] = this->buffer[lineIndex][i + 1];
+        this->buffer[lineIndex][i + 1] = PREM_SPECIAL_SYMBOL;
+    }
+
+    if (this->currentX == -1)
+    {
+        int tmp_index = this->currentViewY + this->currentY;
+
+        if (tmp_index - 1 >= 0)
+        {
+            this->buffer[tmp_index];
+
+            this->currentX = 0;
+            while (this->buffer[tmp_index][this->currentX] != PREM_SPECIAL_SYMBOL)
+            {
+                this->currentX++;
+            }
+
+        } else {
+            this->currentX = 0;
+        }
+
+        /*std::vector<PREM_BUFFER_ITEM*>::iterator it = this->buffer.begin();
+        it += this->currentViewY + this->currentY;
+        this->buffer.erase(it);
+        this->currentX = 0;
+        this->currentY--;*/
+    }
+
+    __from_buffer_to_window();
+}
+
+
+void BufferedWindow::modifyBuffer(wint_t* character)
+{
+    // call when user modifing the text
+
+    int lineIndex = this->currentY + this->currentViewY;
+
+    for (int i = 1; i < this->width - this->currentX; i++)
+    {
+        this->buffer[lineIndex][this->width - i] = this->buffer[lineIndex][this->width - i - 1];
+    }
+
+#ifdef PREM_USE_CHAR_BUFFER
+    this->buffer[lineIndex][this->currentX] = *character;
+#else
+    this->buffer[lineIndex][this->currentX] = to_cchar_t(*character);
+#endif
+
+    if (this->currentX != this->width - 1)
+    {
+        this->currentX++;
+    }
+
+    __from_buffer_to_window();
+}
+
+
+void BufferedWindow::__from_buffer_to_window()
+{
+    // read data from th buffer and add character to new position after moving
+
+    for (int i = 0; i < this->currentViewY + this->height; i++)
+    {
+        for (int n = 0; n < this->width; n++)
+        {
+            mvwaddch(
+                this->window,
+                i, n,
+                this->buffer[this->currentViewY + i][n]
+            );
+        }
+    }
+    wmove(this->window, this->currentY, this->currentX);
+
+    this->update();
+}
+
+
+void BufferedWindow::__from_file_to_buffer()
+{
+    // read data from the file
+
+    std::string s;
+    std::fstream file(this->filename, std::ios_base::in);
+
+    if (file.is_open())
+    {
+        int lineNumber = 0;
+
+        while (!file.eof())
+        {
+            std::getline(file, s);
+
+            for (int n = 0; n < this->width; n++)
+            {
+                if (this->buffer.size() > lineNumber + 1)
+                {
+                    if (s.length() > n)
+                        this->buffer[lineNumber][n] = s[n];
+                    else
+                        this->buffer[lineNumber][n] = PREM_SPECIAL_SYMBOL;
+
+                    if (s.length() == 0)
+                        this->buffer[lineNumber][0] = PREM_SPECIAL_SYMBOL;
+
+                } else {
+                    this->buffer.push_back(new PREM_BUFFER_ITEM[this->width]);
+
+                    this->buffer[lineNumber][n] = s[n];
+                }
+
+            }
+
+            lineNumber++;
+
+        }
+    }
+
+    __from_buffer_to_window();
+    this->update();
+}
+
+
+bool BufferedWindow::__from_buffer_to_file()
+{
+    // read data to specified file
+
+    if (this->filename)
+    {
+        // TODO
+    }
+
+    return false;
+
+}
+
+
+cchar_t* to_cchar_t(wchar_t input_char)
+{
+    cchar_t* cchar_data = new cchar_t;
+
+    cchar_data->attr = 0;
+    cchar_data->chars[0] = input_char;
+    cchar_data->chars[1] = L'\0';
+
+    return cchar_data;
+}
+

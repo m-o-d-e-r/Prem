@@ -5,8 +5,8 @@ BIN_PATH := bin
 
 all: assembly_objects
 
-assembly_objects: prem.o MainWindow.o PremCycle.o
-	$(CXX) -o $(BIN_PATH)/prem $(BIN_PATH)/prem.o $(BIN_PATH)/MainWindow.o $(BIN_PATH)/PremCycle.o -lncurses
+assembly_objects: prem.o MainWindow.o PremCycle.o Trie.o
+	$(CXX) -o $(BIN_PATH)/prem $(BIN_PATH)/prem.o $(BIN_PATH)/MainWindow.o $(BIN_PATH)/Trie.o $(BIN_PATH)/PremCycle.o -lncurses
 
 prem.o: src/prem.cpp
 	$(CXX) -c $(SOURCE_PATH)/prem.cpp -o $(BIN_PATH)/prem.o
@@ -16,6 +16,9 @@ PremCycle.o: src/core/PremCycle.cpp
 
 MainWindow.o: src/core/MainWindow.cpp
 	$(CXX) -c $(SOURCE_PATH)/core/MainWindow.cpp -o $(BIN_PATH)/MainWindow.o
+
+Trie.o: src/core/PremStructs/Trie.cpp
+	$(CXX) -c $(SOURCE_PATH)/core/PremStructs/Trie.cpp -o $(BIN_PATH)/Trie.o
 
 
 .PHONY: clean
