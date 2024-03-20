@@ -1,16 +1,21 @@
 CXX := g++
 SOURCE_PATH := src
 BIN_PATH := bin
-P_NAME := prem
 
 
 all: assembly_objects
 
-assembly_objects: $(P_NAME).o
-	$(CXX) -o $(BIN_PATH)/$(P_NAME) $(BIN_PATH)/$(P_NAME).o
+assembly_objects: prem.o MainWindow.o PremCycle.o
+	$(CXX) -o $(BIN_PATH)/prem $(BIN_PATH)/prem.o $(BIN_PATH)/MainWindow.o $(BIN_PATH)/PremCycle.o -lncurses
 
-$(P_NAME).o: src/$(P_NAME).cpp
-	$(CXX) -c $(SOURCE_PATH)/$(P_NAME).cpp -o $(BIN_PATH)/$(P_NAME).o
+prem.o: src/prem.cpp
+	$(CXX) -c $(SOURCE_PATH)/prem.cpp -o $(BIN_PATH)/prem.o
+
+PremCycle.o: src/core/PremCycle.cpp
+	$(CXX) -c $(SOURCE_PATH)/core/PremCycle.cpp -o $(BIN_PATH)/PremCycle.o
+
+MainWindow.o: src/core/MainWindow.cpp
+	$(CXX) -c $(SOURCE_PATH)/core/MainWindow.cpp -o $(BIN_PATH)/MainWindow.o
 
 
 .PHONY: clean
