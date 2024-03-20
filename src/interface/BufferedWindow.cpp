@@ -306,9 +306,8 @@ void BufferedWindow::insertLine()
 
 void BufferedWindow::deleteBefore()
 {
-    // FIX: 
 
-    if (__buffer_y== 0 && this->currentX == 0)
+    if (__buffer_y == 0 && this->currentX == 0)
         return;
 
 
@@ -340,7 +339,7 @@ void BufferedWindow::deleteBefore()
         {
             this->buffer[__buffer_y - 1]->push_back(
                 new __BufferItem(
-                    (*this->buffer[__buffer_y])[i]->getItemData()//->chars[0]
+                    (*this->buffer[__buffer_y])[i]->getItemData()
                 )
             );
 
@@ -363,15 +362,18 @@ void BufferedWindow::deleteBefore()
         {
             this->currentX = tmp_size;
         }
-        else {
-            this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 3;
-            this->currentX = this->width - 3;
+        else
+        {
+            this->currentViewX = tmp_size - this->width + 4;
+            this->currentX = this->width - 4;
+
         }
 
     }
 
-//    __find_current_word();
     __from_buffer_to_window();
+    __find_current_word();
+
 }
 
 
