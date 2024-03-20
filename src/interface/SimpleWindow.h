@@ -1,6 +1,6 @@
-#ifndef SIMPLE_WINDOW_H
-#define SIMPLE_WINDOW_H
 
+#ifndef _SIMPLE_WINDOW_H_
+#define _SIMPLE_WINDOW_H_
 
 #include <string>
 

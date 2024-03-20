@@ -1,9 +1,10 @@
 
+#ifndef _ARGS_ROUTER_H_
+#define _ARGS_ROUTER_H_
+
 #include <string>
 
 #include "cmdline.h"
-
-
 
 
 
@@ -19,3 +20,7 @@ public:
     void run();
 
 };
+
+
+
+#endif

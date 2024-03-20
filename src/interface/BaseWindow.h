@@ -1,5 +1,6 @@
-#ifndef BASE_WINDOW_H
-#define BASE_WINDOW_H
+
+#ifndef _BASE_WINDOW_H_
+#define _BASE_WINDOW_H_
 
 #include <tuple>
 
