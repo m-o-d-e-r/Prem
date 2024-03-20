@@ -1,15 +1,16 @@
 CXX := g++
 SOURCE_PATH := src
 BIN_PATH := bin
+P_NAME := prem
 
 
 all: assembly_objects
 
-assembly_objects: main.o
-	$(CXX) -o $(BIN_PATH)/main $(BIN_PATH)/main.o
+assembly_objects: $(P_NAME).o
+	$(CXX) -o $(BIN_PATH)/$(P_NAME) $(BIN_PATH)/$(P_NAME).o
 
-main.o: src/main.cpp
-	$(CXX) -c $(SOURCE_PATH)/main.cpp -o $(BIN_PATH)/main.o
+$(P_NAME).o: src/$(P_NAME).cpp
+	$(CXX) -c $(SOURCE_PATH)/$(P_NAME).cpp -o $(BIN_PATH)/$(P_NAME).o
 
 
 .PHONY: clean
