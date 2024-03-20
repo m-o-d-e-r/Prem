@@ -1,1 +1,8 @@
-anon_mkdir_write_enableEOF
+aanon_mkdir_write_enable
+aanon_max_rate
+aanon_other_write_enable
+aanon_upload_enable
+aanon_umask
+aanon_world_readable_only
+aanon_root
+aanonymous_enable

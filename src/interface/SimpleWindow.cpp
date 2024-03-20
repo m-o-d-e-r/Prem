@@ -24,9 +24,6 @@ SimpleWindow::SimpleWindow(WinGeometry geometry, _StringContainer* data, _SW_Vec
 
 SimpleWindow::~SimpleWindow()
 {
-    if (__data)
-        delete __data;
-
     wclear(__window);
 
 }
@@ -70,8 +67,6 @@ void SimpleWindow::init()
         else {
             tmp_string = item;
 
-//            mvwprintw(__window, row_line, 0, "----------");
-//            row_line++;
             mvwprintw(__window, row_line, 0, tmp_string.c_str());
             row_line++;
 
@@ -88,5 +83,4 @@ void SimpleWindow::updateStorage(_StringContainer* data)
 {
     __data = data;
     this->init();
-    __DEBUG_PRINT_TO_FILE("/mnt/d/pyrus/PreM/view", (*__data)[0]);
 }

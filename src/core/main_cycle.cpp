@@ -130,14 +130,14 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
             case KEY_BACKSPACE:
                 win.deleteBefore();
                 keyBarWindow.updateStorage(
-                    commandStorage.find(win.getCurrentWord())
+                    &commandStorage.find(win.getCurrentWord())
                 );
                 break;
 
             case KEY_DC:
                 win.deleteCurrentChar();
                 keyBarWindow.updateStorage(
-                    commandStorage.find(win.getCurrentWord())
+                    &commandStorage.find(win.getCurrentWord())
                 );
                 break;
 
@@ -183,12 +183,24 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                     stateMachine.set_default_state();
                 } else {
                     stateMachine.set_current_state(PremStates::SHOW_HINTS);
+                }*/
+
+                std::fstream file("/mnt/d/pyrus/PreM/view", std::ios::out);
+
+
+                _StringContainer* t = &commandStorage.find(win.getCurrentWord());
+
+                if (t)
+                {
+                    for (auto item : *t)
+                    {
+                        file << item << "\n";
+                    }
                 }
 
+
                 win.modifyBuffer(input);
-                keyBarWindow.updateStorage(
-                    commandStorage.find(win.getCurrentWord())
-                );*/
+                keyBarWindow.updateStorage(&commandStorage.find(win.getCurrentWord()));
                 break;
 
         }
