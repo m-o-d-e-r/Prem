@@ -1,1 +1,1 @@
-This is the first version of the Trie structure for my console editor.
+This is the first version of the console editor.
