@@ -21,8 +21,12 @@
 #include "core/help_functions.h"
 
 
-#include <xcb/xcb.h>
+//#include <xcb/xcb.h>
 #include "libs/clipboard/include/libclipboard.h"
+#include "libs/args-parser/all.hpp"
+
+
+
 
 
 int main(int argc, char** argv)
@@ -30,22 +34,11 @@ int main(int argc, char** argv)
     setlocale(LC_ALL, "");
 
 
-    /*clipboard_c* cb = clipboard_new(NULL);
-    clipboard_set_text_ex(cb, "Hello 123", 5, LCB_CLIPBOARD);*/
-
-    /*int l = 5;
-    char* some_text_from_clipboard = clipboard_text_ex(cb, &l, LCB_CLIPBOARD);
-
-    std::cout << some_text_from_clipboard << '\n';*/
-
-//    clipboard_clear(cb, LCB_CLIPBOARD);
-//    clipboard_free(cb);
-
-
     ConfigReader* config = new ConfigReader;
 
     ArgsPreprocessor __args_preprocessor;
     __args_preprocessor.parse(argc, argv);
+//    __args_preprocessor.__show_args_map();
 
 
     ArgsRouter __args_router(__args_preprocessor.getArgsInfo(), config);
