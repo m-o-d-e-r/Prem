@@ -15,6 +15,8 @@ private:
     WINDOW* userHintWin;
     WINDOW* statusBarWin;
 
+    int scrollValue = 0;
+
     int globalWidth;
     int globalHeight;
 
@@ -31,6 +33,8 @@ private:
     void __updateStatusBarWin();
     void __updateAll();
 
+    bool __isInRange_w(int);
+    bool __isInRange_h(int);
 
 public:
 
