@@ -3,26 +3,49 @@
 
 
 TrieNode::TrieNode() {}
-TrieNode::TrieNode(char value) {this->value = value;}
-TrieNode::~TrieNode() {}
+
+
+TrieNode::TrieNode(char value)
+{
+    this->value = value;
+    __DEBUG_CALL_CONSTRUCTOR(value);
+
+}
+
+
+TrieNode::~TrieNode()
+{
+    __DEBUG_CALL_DESTRUCTOR(this->value);
+}
 
 
 void TrieNode::setValue(char value) {this->value = value;}
+
+
 char TrieNode::getValue() {return this->value;}
 
 
-void TrieNode::addChild(TrieNode* child) {this->childs.push_back(child);}
-std::vector<TrieNode*> TrieNode::getChilds() {return this->childs;}
+void TrieNode::addChild(std::shared_ptr<TrieNode> child) {this->childs.push_back(child);}
+std::vector<std::shared_ptr<TrieNode>> TrieNode::getChilds() {return this->childs;}
 
 
 
-CommandTrie::CommandTrie() {root = new TrieNode;}
-CommandTrie::~CommandTrie() {}
+
+CommandTrie::CommandTrie()
+{
+    root = std::make_shared<TrieNode>();
+}
+
+
+CommandTrie::~CommandTrie()
+{
+
+}
 
 
 void CommandTrie::insert(std::string str)
 {
-    TrieNode* current_node = this->root;
+    std::shared_ptr<TrieNode> current_node = this->root;
     char current_char;
     char child_with_value_exist;
 
@@ -47,7 +70,7 @@ void CommandTrie::insert(std::string str)
 
         if (!child_with_value_exist)
         {
-            TrieNode* newChild = new TrieNode(current_char);
+            std::shared_ptr<TrieNode> newChild = std::make_shared<TrieNode>(current_char);
             current_node->addChild(newChild);
             current_node = newChild;
         }
@@ -59,7 +82,7 @@ void CommandTrie::insert(std::string str)
 
 bool CommandTrie::isExist(std::string str)
 {
-    TrieNode* current_node = this->root;
+    std::shared_ptr<TrieNode> current_node = this->root;
 
     int current_index = 0;
     int cycle_counter = 0;
@@ -83,9 +106,9 @@ bool CommandTrie::isExist(std::string str)
 }
 
 
-TrieNode* CommandTrie::__getLastChild(std::string str)
+std::shared_ptr<TrieNode> CommandTrie::__getLastChild(std::string str)
 {
-    TrieNode* current_node = this->root;
+    std::shared_ptr<TrieNode> current_node = this->root;
 
     int current_index = 0;
     while (true)
@@ -108,7 +131,7 @@ TrieNode* CommandTrie::__getLastChild(std::string str)
 }
 
 
-void CommandTrie::__getSimple(std::string str, TrieNode* node, std::vector<std::string>* lst)
+void CommandTrie::__getSimple(std::string str, std::shared_ptr<TrieNode> node, std::vector<std::string>* lst)
 {
     str += node->getValue();
 
@@ -130,7 +153,7 @@ std::vector<std::string>* CommandTrie::getSimple(std::string str)
     __current_word += str;
 
     std::vector<std::string>* simpleStrings = new std::vector<std::string>;
-    TrieNode* current_node = this->__getLastChild(str);
+    std::shared_ptr<TrieNode> current_node = this->__getLastChild(str);
 
     if (current_node->getChilds().size() == 0)
     {
