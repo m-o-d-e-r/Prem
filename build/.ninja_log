@@ -1,6 +1,0 @@
-# ninja log v5
-16	291	1674435792524642900	CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o	7db98d21c1e9f7a7
-18	439	1674435792526627700	CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o	4aac141163016e97
-9	937	1674435792518096600	CMakeFiles/prem.dir/test.cpp.o	8b3c7c937077a0b4
-27	2424	1674435792535928900	CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o	d5fa007c629e9668
-2525	3013	1674435795034353500	bin/prem	5298e0f9da7be0df
