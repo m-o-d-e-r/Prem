@@ -154,16 +154,12 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 // TODO:
                 // !!! do not touch
 
-                std::string str;
-                str += static_cast<char>(*input);
-                commandStorage.getSimple(str);
-
                 /*std::string str;
                 str += static_cast<char>(*input);
                 keyBarWindow.updateStorage(
-                    commandStorage.getSimple(str)
-                );*/
-//                keyBarWindow.init();
+                    commandStorage.find("R")
+                );
+                keyBarWindow.init();*/
 
                 break;
 
