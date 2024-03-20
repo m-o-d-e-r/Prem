@@ -28,7 +28,7 @@ char TrieNode::getValue() {return __value;}
 bool TrieNode::isVisited() {return __visited;}
 
 
-void TrieNode::makeVisited() {__visited = true;}
+void TrieNode::makeVisited(bool status) {__visited = status;}
 
 
 bool TrieNode::isEndOfWord() {return __end_of_word;}
@@ -147,7 +147,152 @@ __FondedWords* CommandTrie::find(std::string str)
 
     }
 
+//    __setUnvisited(str);
 
     return fonded_strings_data;
+
+}
+
+
+__FondedWords* CommandTrie::find2(std::string str)
+{
+    __TrieNodePair node_pair    = findNodePair(str);
+    __TrieNode_Ptr parent_node  = std::get<0>(node_pair);
+    __TrieNode_Ptr current_node = std::get<1>(node_pair);
+    std::string prefix          = std::get<2>(node_pair);
+
+
+    if (!parent_node)
+        return nullptr;
+
+
+    __FondedWords* fonded_strings_data = new __FondedWords;
+
+    std::stack<__TrieNode_Ptr> node_stack;
+    node_stack.push(current_node);
+
+    std::string word;
+
+
+    while (!node_stack.empty())
+    {
+        __TrieNode_Ptr top_stack_node = node_stack.top();
+
+        if (!top_stack_node->isVisited())
+        {
+            word += top_stack_node->getValue();
+        }
+
+
+        if (top_stack_node->getChilds().size() > 0)
+        {
+            int n_count = 0;
+            for (auto item : top_stack_node->getChilds())
+            {
+                if (!item->isVisited())
+                {
+                    node_stack.push(item);
+                }
+                else
+                    n_count++;
+            }
+
+            if (n_count == top_stack_node->getChilds().size())
+            {
+                top_stack_node->makeVisited();
+                node_stack.pop();
+                word.erase(word.length() - 1);
+            }
+
+        } else {
+            fonded_strings_data->push_back(prefix + word);
+
+            node_stack.pop();
+            word.erase(word.length() - 1);
+        }
+
+        top_stack_node->makeVisited();
+
+    }
+
+    __setUnvisited(current_node);
+
+
+    return fonded_strings_data;
+
+}
+
+
+__TrieNodePair CommandTrie::findNodePair(std::string str)
+{
+    std::stack<__TrieNode_Ptr> node_stack;
+    node_stack.push(__root);
+
+    int char_index = 0;
+    std::string prefix;
+
+    __TrieNode_Ptr parent_node = nullptr;
+    __TrieNode_Ptr current_node;
+    while (!node_stack.empty())
+    {
+        current_node = node_stack.top();
+        node_stack.pop();
+
+        if (current_node->getChilds().size() > 0)
+        {
+            int counter = 0;
+
+            for (auto item : current_node->getChilds())
+            {
+                if (item->getValue() == str[char_index])
+                {
+                    if (!parent_node)
+                    {
+                        parent_node = item;
+                    }
+
+                    prefix += item->getValue();
+                    node_stack.push(item);
+                    char_index++;
+                }
+            }
+        }
+    }
+
+    if (prefix.length() > 0)
+        prefix.erase(prefix.length() - 1);
+    return {parent_node, current_node, prefix};
+
+}
+
+
+void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
+{
+    // TODO: set unvisited by str
+
+    std::stack<__TrieNode_Ptr> node_stack;
+    node_stack.push(start);
+
+
+    while (!node_stack.empty())
+    {
+        __TrieNode_Ptr current_node = node_stack.top();
+        node_stack.pop();
+
+//        std::cout << current_node->getValue() << "\n";
+
+        if (current_node->getChilds().size() > 0)
+        {
+            for (auto item : current_node->getChilds())
+            {
+                node_stack.push(item);
+                if (item->isVisited())
+                {
+                    item->makeVisited(false);
+                }
+            }
+        }
+
+    }
 
 }
