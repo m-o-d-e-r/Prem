@@ -11,11 +11,11 @@ typedef std::tuple<std::string, std::string, bool, bool, std::string> __OptionRu
 class Option
 {
 private:
-    __OptionRule __rule;
+    __OptionRule* __rule;
 
 public:
     Option() = delete;
-    Option(__OptionRule);
+    Option(__OptionRule*);
     ~Option();
 
     std::string getShort();
@@ -33,7 +33,7 @@ public:
 class ArgsRouter
 {
 private:
-    std::map<str::string, Option*> __args_map;
+    std::map<std::string, Option*> __args_map;
 
 public:
     ArgsRouter();

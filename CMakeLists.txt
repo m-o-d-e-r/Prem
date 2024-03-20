@@ -13,6 +13,7 @@ add_executable(prem
     src/interface/BufferedWindow.cpp
 
     src/core/args_preprocessor.cpp
+    src/core/args_router.cpp
     )
 
 
