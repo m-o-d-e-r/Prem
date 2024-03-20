@@ -17,6 +17,9 @@ private:
     std::vector<int> bufferLineSize;
     WINDOW* window;
 
+    int __buffer_x;
+    int __buffer_y;
+
     int currentViewX = 0;
     int currentViewY = 0;
 
@@ -48,6 +51,8 @@ public:
     void redo();
 
 private:
+    void __modify_buffer_coordinates();
+
     void __from_buffer_to_window();
     void __from_file_to_buffer();
 

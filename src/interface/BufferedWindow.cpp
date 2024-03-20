@@ -7,9 +7,9 @@
 #include <locale.h>
 #include <codecvt>
 
-#include "BufferedWindow.h"
-#include "../libs/clip/clip.h"
+#include <gtk/gtk.h>
 
+#include "BufferedWindow.h"
 
 #define PREM_SPECIAL_SYMBOL L'\n'
 
@@ -291,8 +291,8 @@ void BufferedWindow::deleteBefore()
     {
         std::vector<__BufferItem*>::iterator rowIter = this->buffer[lineIndex]->begin();
 
-        delete (*this->buffer[lineIndex])[this->currentX];
-        (*this->buffer[lineIndex]).erase(rowIter + this->currentX);
+        delete (*this->buffer[lineIndex])[this->currentX + this->currentViewX];
+        (*this->buffer[lineIndex]).erase(rowIter + this->currentX + this->currentViewX);
 
     } else {
 
@@ -323,41 +323,49 @@ void BufferedWindow::deleteBefore()
 
     }
 
+
+    /*if (this->currentViewX != 0 && this->currentX <= 7)
+    {
+        this->currentViewX--;
+        this->currentX++;
+    }*/
+
+
+
     __from_buffer_to_window();
 }
 
 
 void BufferedWindow::deleteCurrentChar()
 {
-    int lineIndex = this->currentViewY + this->currentY;
 
-    if (this->currentX != this->buffer[lineIndex]->size())
+    if (this->currentX != this->buffer[__buffer_y]->size())
     {
-        std::vector<__BufferItem*>::iterator rowIter = this->buffer[lineIndex]->begin();
+        std::vector<__BufferItem*>::iterator rowIter = this->buffer[__buffer_y]->begin();
 
-        delete (*this->buffer[lineIndex])[this->currentX];
-        (*this->buffer[lineIndex]).erase(rowIter + this->currentX);
+        delete (*this->buffer[__buffer_y])[__buffer_x];
+        (*this->buffer[__buffer_y]).erase(rowIter + __buffer_x);
 
     } else {
-        if (lineIndex + 1 == this->buffer.size())
+        if (__buffer_y + 1 == this->buffer.size())
             return;
 
-        for (int i = 0; i < this->buffer[lineIndex + 1]->size(); i++)
+        for (int i = 0; i < this->buffer[__buffer_y + 1]->size(); i++)
         {
-            this->buffer[lineIndex]->push_back(
+            this->buffer[__buffer_y]->push_back(
                 new __BufferItem(
-                    (*this->buffer[lineIndex + 1])[i]->getItemData()->chars[0]
+                    (*this->buffer[__buffer_y + 1])[i]->getItemData()->chars[0]
                 )
             );
 
-            delete (*this->buffer[lineIndex + 1])[i];
+            delete (*this->buffer[__buffer_y + 1])[i];
         }
 
 
         std::vector<std::vector<__BufferItem*>*>::iterator currLineIter = this->buffer.begin();
-        currLineIter += lineIndex + 1;
+        currLineIter += __buffer_y + 1;
 
-        delete this->buffer[lineIndex + 1];
+        delete this->buffer[__buffer_y + 1];
         this->buffer.erase(currLineIter);
 
 
@@ -388,7 +396,7 @@ void BufferedWindow::modifyBuffer(wint_t* character)
     );
 
 
-    if (this->buffer[lineIndex]->size() < this->width)
+    if (this->buffer[lineIndex]->size() < this->width || this->currentViewX == 0)
     {
         this->currentX++;
     }
@@ -406,11 +414,34 @@ void BufferedWindow::copyFromBuffer(){}
 
 void BufferedWindow::pasteToBuffer()
 {
-    clip::set_text("Hello World");
+    /*gtk_init(0, 0);
 
-    /*std::string value;
-    clip::get_text(value);
-    std::cout << value << "\n";*/
+    GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    std::string buffer_text = (std::string)gtk_clipboard_wait_for_text(clip);
+
+
+    int currentLine = this->currentViewY + this->currentY;
+
+    std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[currentLine]->begin();
+
+    for (int i = 0; i < buffer_text.size(); i++)
+    {
+        this->buffer[currentLine]->insert(
+            bufferLineIter + this->currentX + this->currentViewX + i,
+            new __BufferItem(buffer_text[i])
+        );
+    }
+
+    if (this->buffer[currentLine]->size() < this->width)
+    {
+        this->currentX++;
+    } else {
+        this->currentViewX = this->buffer[currentLine]->size() - this->width + 1;
+//        this->currentX;
+    }
+
+    __from_buffer_to_window();*/
+
 }
 
 
@@ -418,6 +449,13 @@ void BufferedWindow::undo() {}
 
 
 void BufferedWindow::redo() {}
+
+
+void BufferedWindow::__modify_buffer_coordinates()
+{
+    __buffer_x = this->currentViewX + this->currentX;
+    __buffer_y = this->currentViewY + this->currentY;
+}
 
 
 void BufferedWindow::__from_buffer_to_window()
@@ -465,6 +503,8 @@ void BufferedWindow::__from_buffer_to_window()
         }
     }
     wmove(this->window, this->currentY, this->currentX);
+    
+    __modify_buffer_coordinates();
 
     this->update();
 }
