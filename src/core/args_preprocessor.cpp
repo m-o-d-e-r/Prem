@@ -69,30 +69,31 @@ static void __double_definition_check(ArgsInfo* args_info, char option, int argc
             "\targs preprocessor: detected double definition -- '{}'\n\n",
             option
         );
+        exit(2);
     }
 }
 
 
-static bool __one_cli_argument_check(ArgsInfo* args_info, char option, int argc, char** argv)
+static void __one_cli_argument_check(ArgsInfo* args_info, char option, int argc, char** argv)
 {
     std::map<char, uint8_t>::iterator _map_iterator = args_info->mapCounter.begin();
 
     for (; _map_iterator != args_info->mapCounter.end(); _map_iterator++)
     {
+        if (_map_iterator->first == option)
+            continue;
+
         if (_map_iterator->second)
         {
+            __print_error_pointer(argc, argv);
+
             fmt::print(
                 fg(fmt::color::orange_red),
                 "\targs preprocessor: bad argument usage. (Usage: prem [Option]) you can use only one allowed key\n\n"
             );
-
-            return false;
-
+            exit(2);
         }
     }
-
-    return true;
-
 }
 
 
@@ -119,28 +120,28 @@ void ArgsPreprocessor::parse(int argc, char** argv)
         switch(_opt)
         {
         case 'f':
-            if (__one_cli_argument_check(this->args_info, 'f', argc, argv))
-                __double_definition_check(this->args_info, 'f', argc, argv);
+            __double_definition_check(this->args_info, 'f', argc, argv);
+            __one_cli_argument_check(this->args_info, 'f', argc, argv);
             break;
 
         case 'i':
-            if (__one_cli_argument_check(this->args_info, 'i', argc, argv))
-                __double_definition_check(this->args_info, 'i', argc, argv);
+            __double_definition_check(this->args_info, 'i', argc, argv);
+            __one_cli_argument_check(this->args_info, 'i', argc, argv);
             break;
 
         case 'r':
-            if (__one_cli_argument_check(this->args_info, 'r', argc, argv))
-                __double_definition_check(this->args_info, 'r', argc, argv);
+            __double_definition_check(this->args_info, 'r', argc, argv);
+            __one_cli_argument_check(this->args_info, 'r', argc, argv);
             break;
 
         case 'V':
-            if (__one_cli_argument_check(this->args_info, 'V', argc, argv))
-                __double_definition_check(this->args_info, 'V', argc, argv);
+            __double_definition_check(this->args_info, 'V', argc, argv);
+            __one_cli_argument_check(this->args_info, 'V', argc, argv);
             break;
 
         case 'h':
-            if (__one_cli_argument_check(this->args_info, 'h', argc, argv))
-                __double_definition_check(this->args_info, 'h', argc, argv);
+            __double_definition_check(this->args_info, 'h', argc, argv);
+            __one_cli_argument_check(this->args_info, 'h', argc, argv);
             break;
 
         case '?':
