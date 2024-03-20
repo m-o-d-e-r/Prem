@@ -19,42 +19,8 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 {
     StateMachine stateMachine;
 
-    DictReader dictReader("/mnt/d/pyrus/PreM/src/.prem.bak/dict/vsftpd"); // TODO: 
+    DictReader dictReader(__config->getDictPath(), "vsftpd"); // TODO: 
     dictReader.read_dict();
-
-
-    initscr();
-
-    /*BufferedWindow* editorWorkPlace = nullptr;
-    SimpleWindow* keyBarWindow = new SimpleWindow(
-        100,
-        30,
-        new _StringContainer {
-            "^q Quit",
-            "^c Copy",
-            "^v Paste"
-        },
-        _SW_Vector_Policy::HORIZONTAL
-    );
-    keyBarWindow->init();
-
-    _Layout l1(0, _LayoutPolicy::HORIZONTAL, 100, 20);
-    l1.addWindow(keyBarWindow);*/
-
-
-    /*WindowContainer mainWindow;
-
-    mainWindow.addLayout(0, 1, 0.8f);
-    mainWindow.addLayout(1, 1, 0.2f);
-
-    mainWindow.addWindowToLayoutById(
-        0, editorWorkPlace, _WinTypes::BUFFERED, __file_name
-    );*/
-    /*mainWindow.addWindowToLayoutById(
-        1, keyBarWindow
-    );*/
-
-
 
     initscr();
     raw();
@@ -62,8 +28,6 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
     noecho();
     nonl();
     refresh();
-
-
 
 
     BufferedWindow win(
@@ -163,12 +127,12 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
             case KEY_MOUSE:
             {
-                MEVENT mouse_event;
+                /*MEVENT mouse_event;
 
                 if (getmouse(&mouse_event) == OK)
                 {
                     win.mouseMovement(&mouse_event);
-                }
+                }*/
 
                 break;
             }
@@ -185,27 +149,11 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                     stateMachine.set_current_state(PremStates::SHOW_HINTS);
                 }*/
 
-                /*std::fstream file("/mnt/d/pyrus/PreM/view", std::ios::out);
-
-
-                _StringContainer* t = &commandStorage.find(win.getCurrentWord());
-
-                if (t)
-                {
-                    for (auto item : *t)
-                    {
-                        file << item << "\n";
-                    }
-                }*/
-
-
                 win.modifyBuffer(input);
                 keyBarWindow.updateStorage(&commandStorage.find(win.getCurrentWord()));
                 break;
 
         }
-
-//        __DEBUG_PRINT_TO_FILE("/mnt/d/pyrus/PreM/view", win.getCurrentWord());
 
     }
 

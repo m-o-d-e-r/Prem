@@ -14,14 +14,15 @@
 class DictReader
 {
 private:
-    __PremPath __path_to_dict;
+    __PremPath __dict_path;
+    std::string __dict_name;
     __DictData* __data;
 
 private:
-    void __validate();
+    bool __is_valid_dict(); // TODO: 
 
 public:
-    DictReader(__PremPath);
+    DictReader(__PremPath, std::string);
     ~DictReader();
 
     void read_dict();
@@ -34,4 +35,3 @@ public:
 
 
 #endif
-

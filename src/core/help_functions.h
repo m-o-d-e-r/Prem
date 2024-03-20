@@ -30,14 +30,18 @@ enum class MessageType
 
 
 bool _is_folder_exist(char*);
+bool _is_folder_exist(std::filesystem::path);
 
 bool _is_file_exist(char*);
 bool _is_file_exist(const char*);
+bool _is_file_exist(std::filesystem::path);
 
 void _create_folder(char*);
+void _create_folder(std::filesystem::path);
 void _create_file(char*);
 
 bool _copy_folder(char*, char*);
+bool _copy_folder(std::filesystem::path, std::filesystem::path);
 
 char* _get_user_home_dir();
 
