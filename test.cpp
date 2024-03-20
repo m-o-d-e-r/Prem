@@ -13,19 +13,24 @@
 
 #include "src/core/PremStructs/BufferItem.h"
 
+#include "src/core/args_preprocessor.h"
 
 //#include "src/core/config_reader.h"
 
 
 
-int main()
+int main(int argc, char** argv)
 {
 //    ConfigReader config;
 
-
     setlocale(LC_ALL, "");
 
-    initscr();
+
+    ArgsPreprocessor __args_preprocessor(argc, argv);
+    __args_preprocessor.parse();
+
+
+    /*initscr();
     raw();
 //    cbreak();
     noecho();
@@ -90,7 +95,7 @@ int main()
                 break;
 
         }
-    }
+    }*/
 
 
     return 0;

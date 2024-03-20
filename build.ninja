@@ -45,6 +45,7 @@ cmake_ninja_workdir = /mnt/d/pyrus/PreM/
 build cmake_object_order_depends_target_prem: phony || CMakeFiles/prem.dir
 
 build CMakeFiles/prem.dir/test.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/test.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
   DEP_FILE = CMakeFiles/prem.dir/test.cpp.o.d
   FLAGS = -pthread
   INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
@@ -52,6 +53,7 @@ build CMakeFiles/prem.dir/test.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/test
   OBJECT_FILE_DIR = CMakeFiles/prem.dir
 
 build CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/src/core/PremStructs/BufferItem.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
   DEP_FILE = CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o.d
   FLAGS = -pthread
   INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
@@ -59,6 +61,7 @@ build CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o: CXX_COMPILER__p
   OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/core/PremStructs
 
 build CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/src/interface/BaseWindow.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
   DEP_FILE = CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o.d
   FLAGS = -pthread
   INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
@@ -66,11 +69,20 @@ build CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o: CXX_COMPILER__prem_ /m
   OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/interface
 
 build CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/src/interface/BufferedWindow.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
   DEP_FILE = CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o.d
   FLAGS = -pthread
   INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
   OBJECT_DIR = CMakeFiles/prem.dir
   OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/interface
+
+build CMakeFiles/prem.dir/src/core/args_preprocessor.cpp.o: CXX_COMPILER__prem_ /mnt/d/pyrus/PreM/src/core/args_preprocessor.cpp || cmake_object_order_depends_target_prem
+  DEFINES = -DFMT_HEADER_ONLY=1
+  DEP_FILE = CMakeFiles/prem.dir/src/core/args_preprocessor.cpp.o.d
+  FLAGS = -pthread
+  INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/fribidi -I/usr/include/atk-1.0 -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+  OBJECT_DIR = CMakeFiles/prem.dir
+  OBJECT_FILE_DIR = CMakeFiles/prem.dir/src/core
 
 
 # =============================================================================
@@ -80,7 +92,7 @@ build CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o: CXX_COMPILER__prem
 #############################################
 # Link the executable bin/prem
 
-build bin/prem: CXX_EXECUTABLE_LINKER__prem_ CMakeFiles/prem.dir/test.cpp.o CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o
+build bin/prem: CXX_EXECUTABLE_LINKER__prem_ CMakeFiles/prem.dir/test.cpp.o CMakeFiles/prem.dir/src/core/PremStructs/BufferItem.cpp.o CMakeFiles/prem.dir/src/interface/BaseWindow.cpp.o CMakeFiles/prem.dir/src/interface/BufferedWindow.cpp.o CMakeFiles/prem.dir/src/core/args_preprocessor.cpp.o
   LINK_LIBRARIES = -lncursesw  -lgtk-3  -lgdk-3  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -latk-1.0  -lcairo-gobject  -lcairo  -lgdk_pixbuf-2.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0
   OBJECT_DIR = CMakeFiles/prem.dir
   POST_BUILD = :
@@ -133,14 +145,14 @@ build all: phony bin/prem
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /usr/share/cmake-3.22/Modules/CMakeCInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.22/Modules/FindPackageMessage.cmake /usr/share/cmake-3.22/Modules/FindPkgConfig.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.1/CMakeCCompiler.cmake CMakeFiles/3.22.1/CMakeCXXCompiler.cmake CMakeFiles/3.22.1/CMakeSystem.cmake CMakeLists.txt
+build build.ninja: RERUN_CMAKE | /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-config.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-targets-none.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-targets.cmake /usr/share/cmake-3.22/Modules/CMakeCInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.22/Modules/FindPackageMessage.cmake /usr/share/cmake-3.22/Modules/FindPkgConfig.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.1/CMakeCCompiler.cmake CMakeFiles/3.22.1/CMakeCXXCompiler.cmake CMakeFiles/3.22.1/CMakeSystem.cmake CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /usr/share/cmake-3.22/Modules/CMakeCInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.22/Modules/FindPackageMessage.cmake /usr/share/cmake-3.22/Modules/FindPkgConfig.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.1/CMakeCCompiler.cmake CMakeFiles/3.22.1/CMakeCXXCompiler.cmake CMakeFiles/3.22.1/CMakeSystem.cmake CMakeLists.txt: phony
+build /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-config.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-targets-none.cmake /usr/lib/x86_64-linux-gnu/cmake/fmt/fmt-targets.cmake /usr/share/cmake-3.22/Modules/CMakeCInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.22/Modules/FindPackageMessage.cmake /usr/share/cmake-3.22/Modules/FindPkgConfig.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.1/CMakeCCompiler.cmake CMakeFiles/3.22.1/CMakeCXXCompiler.cmake CMakeFiles/3.22.1/CMakeSystem.cmake CMakeLists.txt: phony
 
 
 #############################################
