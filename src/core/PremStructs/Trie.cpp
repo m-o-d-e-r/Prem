@@ -115,9 +115,10 @@ __FondedWords* CommandTrie::find(std::string str)
     std::string word;
 
 
+    __TrieNode_Ptr top_stack_node;
     while (!node_stack.empty())
     {
-        __TrieNode_Ptr top_stack_node = node_stack.top();
+        top_stack_node = node_stack.top();
 
         if (!top_stack_node->isVisited())
         {
@@ -140,6 +141,11 @@ __FondedWords* CommandTrie::find(std::string str)
 
             if (n_count == top_stack_node->getChilds().size())
             {
+                if (top_stack_node->isEndOfWord())
+                {
+                    fonded_strings_data->push_back(prefix + word);
+                }
+
                 top_stack_node->makeVisited();
                 node_stack.pop();
                 word.erase(word.length() - 1);
@@ -234,10 +240,6 @@ void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
             for (auto item : current_node->getChilds())
             {
                 node_stack.push(item);
-                if (item->isVisited())
-                {
-                    item->makeVisited(false);
-                }
 
             }
 
