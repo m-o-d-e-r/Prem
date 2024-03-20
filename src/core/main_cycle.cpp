@@ -98,7 +98,6 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
 
 
-
     wint_t* input = new wint_t;
     bool run = true;
     while (run)
@@ -179,7 +178,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 break;
 
             default:
-                if (static_cast<char>(*input) == ' ')
+                /*if (static_cast<char>(*input) == ' ')
                 {
                     stateMachine.set_default_state();
                 } else {
@@ -189,10 +188,12 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 win.modifyBuffer(input);
                 keyBarWindow.updateStorage(
                     commandStorage.find(win.getCurrentWord())
-                );
+                );*/
                 break;
 
         }
+
+//        __DEBUG_PRINT_TO_FILE("/mnt/d/pyrus/PreM/view", win.getCurrentWord());
 
     }
 

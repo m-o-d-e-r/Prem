@@ -1,5 +1,6 @@
 
 #include "SimpleWindow.h"
+#include "../core/help_functions.h"
 
 
 
@@ -54,6 +55,7 @@ void SimpleWindow::init()
         this->update();
         return;
     }
+    wclear(__window);
 
 
     for (auto item : *__data)
@@ -86,4 +88,5 @@ void SimpleWindow::updateStorage(_StringContainer* data)
 {
     __data = data;
     this->init();
+    __DEBUG_PRINT_TO_FILE("/mnt/d/pyrus/PreM/view", (*__data)[0]);
 }
