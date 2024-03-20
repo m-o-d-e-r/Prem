@@ -3,9 +3,10 @@
 #define _MAIN_CYCLE_H_
 
 
-void __premEventCycle();
+#include "config_reader.h"
 
-void premGeneralLifeCycle();
+
+void premGeneralLifeCycle(ConfigReader*, char*);
 
 
 #endif

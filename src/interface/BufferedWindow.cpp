@@ -38,7 +38,7 @@ BufferedWindow::~BufferedWindow()
 
 
     // clear the buffer
-    for (int i = 0; i < this->height; i++)
+    for (int i = 0; i < this->buffer.size(); i++)
     {
         for (int n = 0; n < this->buffer[i]->size(); n++)
         {
@@ -562,7 +562,7 @@ bool BufferedWindow::__from_buffer_to_file()
     if (this->filename)
     {
         std::wstring line;
-        std::wfstream file("/mnt/d/pyrus/PreM/text_out", std::ios::out);
+        std::wfstream file(this->filename, std::ios::out);
 
         std::locale loc(std::locale(), new std::codecvt_utf8_utf16<wchar_t>);
         file.imbue(loc);
