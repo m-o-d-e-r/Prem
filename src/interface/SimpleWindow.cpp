@@ -68,8 +68,8 @@ void SimpleWindow::init()
         else {
             tmp_string = item;
 
-            mvwprintw(__window, row_line, 0, "----------");
-            row_line++;
+//            mvwprintw(__window, row_line, 0, "----------");
+//            row_line++;
             mvwprintw(__window, row_line, 0, tmp_string.c_str());
             row_line++;
 

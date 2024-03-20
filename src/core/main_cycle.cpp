@@ -6,6 +6,8 @@
 #include "../core/PremStructs/Trie.h"
 #include "../core/help_functions.h"
 #include "../core/state_machine.h"
+#include "../core/dict_reader.h"
+
 
 #define PREM_KEY_ENTER 13
 #define PREM_KEY_CTRL(x) ((x) & 0x1f)
@@ -17,7 +19,8 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 {
     StateMachine stateMachine;
 
-
+    DictReader dictReader("/mnt/d/pyrus/PreM/src/.prem.bak/dict/vsftpd"); // TODO: 
+    dictReader.read_dict();
 
 
     initscr();
@@ -76,16 +79,10 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
 
     CommandTrie commandStorage;
-    commandStorage.insert("Python");
-    commandStorage.insert("C++");
-    commandStorage.insert("Java");
-    commandStorage.insert("Java Script");
-    commandStorage.insert("C#");
-    commandStorage.insert("C");
-    commandStorage.insert("Rust");
-    commandStorage.insert("Ruby");
-    commandStorage.insert("Perl");
-
+    for (auto item : *dictReader.get_dict_data())
+    {
+        commandStorage.insert(item);
+    }
 
     SimpleWindow keyBarWindow(
         {
