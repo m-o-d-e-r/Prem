@@ -40,6 +40,12 @@ void SimpleWindow::init()
 
     int row_line = 0;
     std::string tmp_string;
+
+
+    if (!__data)
+        return;
+
+
     for (auto item : *__data)
     {
         if (__policy == _SW_Vector_Policy::HORIZONTAL)
