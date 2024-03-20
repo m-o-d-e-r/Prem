@@ -81,6 +81,10 @@ int main()
                 win.__from_buffer_to_file();
                 break;
 
+            case PREM_KEY_CTRL('v'):
+                win.pasteToBuffer();
+                break;
+
             default:
                 win.modifyBuffer(input);
                 break;

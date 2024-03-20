@@ -33,6 +33,7 @@ public:
 
     void init();
     void update();
+
     void doScroll(int);
     void moveHorizontal(int);
 
@@ -40,6 +41,11 @@ public:
     void deleteBefore();
     void deleteCurrentChar();
     void modifyBuffer(wint_t*);
+
+    void copyFromBuffer();
+    void pasteToBuffer();
+    void undo();
+    void redo();
 
 private:
     void __from_buffer_to_window();

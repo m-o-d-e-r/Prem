@@ -8,6 +8,7 @@
 #include <codecvt>
 
 #include "BufferedWindow.h"
+#include "../libs/clip/clip.h"
 
 
 #define PREM_SPECIAL_SYMBOL L'\n'
@@ -398,6 +399,25 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 
     __from_buffer_to_window();
 }
+
+
+void BufferedWindow::copyFromBuffer(){}
+
+
+void BufferedWindow::pasteToBuffer()
+{
+    clip::set_text("Hello World");
+
+    /*std::string value;
+    clip::get_text(value);
+    std::cout << value << "\n";*/
+}
+
+
+void BufferedWindow::undo() {}
+
+
+void BufferedWindow::redo() {}
 
 
 void BufferedWindow::__from_buffer_to_window()
