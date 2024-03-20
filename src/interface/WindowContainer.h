@@ -29,6 +29,9 @@ public:
     void init();
     void update();
 
+    void addLayout(short, int, int);
+    void addWindowToLayout();
+
 };
 
 
