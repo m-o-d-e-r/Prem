@@ -1,34 +1,49 @@
 
-#include <fmt/printf.h>
-#include <fmt/color.h>   
+#include <string>
 
 #include "args_router.h"
 #include "main_cycle.h"
  
 
 
-ArgsRouter::ArgsRouter(gengetopt_args_info* args_info)
+ArgsRouter::ArgsRouter(ArgsInfo* args_info, ConfigReader* config)
 {
     this->args_info = args_info;
+    this->_config = config;
 
 }
 
+
 void ArgsRouter::run()
 {
-    if (this->args_info->file_arg)
+    if (this->args_info->mapCounter['f'])
     {
-       fmt::print("Open the file {}\n", this->args_info->file_arg);
+        fmt::print("Open the file {}\n", this->args_info->mapValues['f']);
     
         premGeneralLifeCycle();
 
     }
-    else if (this->args_info->install_arg)
+    else if (this->args_info->mapCounter['i'])
     {
-       fmt::print("Install new dict {}\n", this->args_info->install_arg);
+        fmt::print("Install new dict {}\n", this->args_info->mapValues['i']);
     }
-    else if (this->args_info->remove_arg)
+    else if (this->args_info->mapCounter['r'])
     {
-       fmt::print("Remove dict {}\n", this->args_info->remove_arg);
+        fmt::print("Remove dict {}\n", this->args_info->mapValues['r']);
+    }
+    else if (this->args_info->mapCounter['V'])
+    {
+        fmt::print(
+            fg(fmt::color::dark_cyan),
+            "\tVersion: {}\n\n",
+            this->_config->getTableByName("info")["program"]["version"].value_or("Error")
+        );
+    }
+    else if (this->args_info->mapCounter['h'])
+    {
+        fmt::print(
+            "help\n"
+        );
     }
 
 }
