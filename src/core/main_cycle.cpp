@@ -1,4 +1,6 @@
 
+#include <ncurses.h>
+
 #include "main_cycle.h"
 #include "../interface/BufferedWindow.h"
 
@@ -17,7 +19,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
     refresh();
 
 
-    BufferedWindow win(20, 20, __file_name);
+    BufferedWindow win(COLS, LINES, __file_name);
 
     wint_t* input = new wint_t;
     bool run = true;
