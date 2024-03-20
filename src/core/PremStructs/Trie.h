@@ -72,7 +72,6 @@ public:
     void insert(std::string str);
 
     __FondedWords* find(std::string str);
-    __FondedWords* find2(std::string str);
     __TrieNodePair findNodePair(std::string str);
 
 private:

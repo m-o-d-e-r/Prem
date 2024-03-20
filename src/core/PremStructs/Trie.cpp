@@ -97,65 +97,6 @@ void CommandTrie::insert(std::string str)
 
 __FondedWords* CommandTrie::find(std::string str)
 {
-    __FondedWords* fonded_strings_data = new __FondedWords;
-    std::stack<__TrieNode_Ptr> node_stack;
-    node_stack.push(__root);
-
-    int char_position = 0;
-    std::string word;
-
-
-    while (!node_stack.empty())
-    {
-        __TrieNode_Ptr current_node = node_stack.top();
-
-        if (!current_node->isVisited())
-        {
-            word += current_node->getValue();
-        }
-
-
-        if (current_node->getChilds().size() > 0)
-        {
-            int n_count = 0;
-            for (auto item : current_node->getChilds())
-            {
-                if (!item->isVisited())
-                {
-                    node_stack.push(item);
-                }
-                else
-                    n_count++;
-            }
-
-            if (n_count == current_node->getChilds().size())
-            {
-                current_node->makeVisited();
-                node_stack.pop();
-                word.erase(word.length() - 1);
-            }
-
-        } else {
-            fonded_strings_data->push_back(word);
-//            std::cout << word << "\n";
-
-            node_stack.pop();
-            word.erase(word.length() - 1);
-        }
-
-        current_node->makeVisited();
-
-    }
-
-//    __setUnvisited(str);
-
-    return fonded_strings_data;
-
-}
-
-
-__FondedWords* CommandTrie::find2(std::string str)
-{
     __TrieNodePair node_pair    = findNodePair(str);
     __TrieNode_Ptr parent_node  = std::get<0>(node_pair);
     __TrieNode_Ptr current_node = std::get<1>(node_pair);
@@ -268,8 +209,6 @@ __TrieNodePair CommandTrie::findNodePair(std::string str)
 
 void CommandTrie::__setUnvisited(__TrieNode_Ptr start)
 {
-    // TODO: set unvisited by str
-
     std::stack<__TrieNode_Ptr> node_stack;
     node_stack.push(start);
 
