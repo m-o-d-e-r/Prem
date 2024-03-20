@@ -7,7 +7,7 @@
 #include <memory>
 
 
-#define DEBUG_TRIE_MODULES
+//#define DEBUG_TRIE_MODULES
 
 #ifdef DEBUG_TRIE_MODULES
     #include <iostream>
@@ -22,31 +22,45 @@
 #endif
 
 
+class TrieNode;
+#define __TrieNode_Ptr std::shared_ptr<TrieNode>
+#define __make_TrieNode_Ptr std::make_shared
+#define __FondedWords std::vector<std::string>
+
+
 
 class TrieNode
 {
 private:
-    char value = '$';
-    std::vector<std::shared_ptr<TrieNode>> childs;
+    std::vector<__TrieNode_Ptr> __childs;
+    bool __visited     = false;
+    char __value       = '$';
+    bool __end_of_word = false;
 
 public:
     TrieNode();
-    TrieNode(char value);
+    TrieNode(char value, bool is_eow);
     ~TrieNode();
 
     void setValue(char value);
     char getValue();
 
-    void addChild(std::shared_ptr<TrieNode> child);
-    std::vector<std::shared_ptr<TrieNode>> getChilds();
+    bool isVisited();
+    void makeVisited();
+
+    bool isEndOfWord();
+
+    void addChild(__TrieNode_Ptr child);
+    std::vector<__TrieNode_Ptr>& getChilds();
 
 };
+
 
 
 class CommandTrie
 {
 private:
-    std::shared_ptr<TrieNode> root;
+    __TrieNode_Ptr __root;
     std::string __current_word;
 
 public:
@@ -54,12 +68,8 @@ public:
     ~CommandTrie();
 
     void insert(std::string str);
-    bool isExist(std::string str);
 
-    std::shared_ptr<TrieNode> __getLastChild(std::string str);
-
-    void __getSimple(std::string str, std::shared_ptr<TrieNode> node, std::vector<std::string>* lst);
-    std::vector<std::string>* getSimple(std::string str);
+    __FondedWords* find(std::string str);
 
 };
 

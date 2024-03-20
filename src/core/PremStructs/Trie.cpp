@@ -1,39 +1,50 @@
 
+#include <stack>
+#include <iostream>
+
 #include "Trie.h"
 
 
-TrieNode::TrieNode() {}
+TrieNode::TrieNode() {__DEBUG_CALL_CONSTRUCTOR(__value);}
 
 
-TrieNode::TrieNode(char value)
+TrieNode::TrieNode(char value, bool is_eow)
 {
-    this->value = value;
+    __value       = value;
+    __end_of_word = is_eow;
     __DEBUG_CALL_CONSTRUCTOR(value);
-
 }
 
 
-TrieNode::~TrieNode()
-{
-    __DEBUG_CALL_DESTRUCTOR(this->value);
-}
+TrieNode::~TrieNode() {__DEBUG_CALL_DESTRUCTOR(__value);}
 
 
-void TrieNode::setValue(char value) {this->value = value;}
+void TrieNode::setValue(char value) {__value = value;}
 
 
-char TrieNode::getValue() {return this->value;}
+char TrieNode::getValue() {return __value;}
 
 
-void TrieNode::addChild(std::shared_ptr<TrieNode> child) {this->childs.push_back(child);}
-std::vector<std::shared_ptr<TrieNode>> TrieNode::getChilds() {return this->childs;}
+bool TrieNode::isVisited() {return __visited;}
+
+
+void TrieNode::makeVisited() {__visited = true;}
+
+
+bool TrieNode::isEndOfWord() {return __end_of_word;}
+
+
+void TrieNode::addChild(__TrieNode_Ptr child) {__childs.push_back(child);}
+
+
+std::vector<__TrieNode_Ptr>& TrieNode::getChilds() {return __childs;}
 
 
 
 
 CommandTrie::CommandTrie()
 {
-    root = std::make_shared<TrieNode>();
+    __root = __make_TrieNode_Ptr<TrieNode>();
 }
 
 
@@ -45,20 +56,24 @@ CommandTrie::~CommandTrie()
 
 void CommandTrie::insert(std::string str)
 {
-    std::shared_ptr<TrieNode> current_node = this->root;
+    __TrieNode_Ptr current_node = __root; // set root as current node
     char current_char;
-    char child_with_value_exist;
+    bool child_with_value_exist;
+    bool is_eow = false;
 
     while (true)
     {
-        if (str.length() == 0)
+        if (str.length() == 0)          // exist if length of str is 0
             break;
 
-        current_char = str[0];
+        if (str.length() == 1)
+            is_eow = true;
+
+        current_char = str[0];          // get first char from string
         child_with_value_exist = false;
 
 
-        for (auto item : current_node->getChilds())
+        for (auto item : current_node->getChilds()) // check if exist node with current char
         {
             if (item->getValue() == current_char)
             {
@@ -70,7 +85,7 @@ void CommandTrie::insert(std::string str)
 
         if (!child_with_value_exist)
         {
-            std::shared_ptr<TrieNode> newChild = std::make_shared<TrieNode>(current_char);
+            __TrieNode_Ptr newChild = __make_TrieNode_Ptr<TrieNode>(current_char, is_eow);
             current_node->addChild(newChild);
             current_node = newChild;
         }
@@ -80,91 +95,59 @@ void CommandTrie::insert(std::string str)
 }
 
 
-bool CommandTrie::isExist(std::string str)
+__FondedWords* CommandTrie::find(std::string str)
 {
-    std::shared_ptr<TrieNode> current_node = this->root;
+    __FondedWords* fonded_strings_data = new __FondedWords;
+    std::stack<__TrieNode_Ptr> node_stack;
+    node_stack.push(__root);
 
-    int current_index = 0;
-    int cycle_counter = 0;
-    while (true)
+    int char_position = 0;
+    std::string word;
+
+
+    while (!node_stack.empty())
     {
-        for (auto item : current_node->getChilds())
+        __TrieNode_Ptr current_node = node_stack.top();
+
+        if (!current_node->isVisited())
         {
-            if (item->getValue() == str[current_index])
-            {
-                current_node = item;
-                current_index++;
-                break;
-            }
+            word += current_node->getValue();
         }
 
-        if (current_index == str.length()) {break;}
-        if (cycle_counter == str.length()) {break;}
-        cycle_counter++;
-    }
-    return (current_index == str.length());
-}
 
-
-std::shared_ptr<TrieNode> CommandTrie::__getLastChild(std::string str)
-{
-    std::shared_ptr<TrieNode> current_node = this->root;
-
-    int current_index = 0;
-    while (true)
-    {
-        for (auto item : current_node->getChilds())
+        if (current_node->getChilds().size() > 0)
         {
-            if (item->getValue() == str[current_index])
+            int n_count = 0;
+            for (auto item : current_node->getChilds())
             {
-//                    std::cout << str[current_index] << "\n";
-                current_node = item;
-                current_index++;
-                break;
+                if (!item->isVisited())
+                {
+                    node_stack.push(item);
+                }
+                else
+                    n_count++;
             }
+
+            if (n_count == current_node->getChilds().size())
+            {
+                current_node->makeVisited();
+                node_stack.pop();
+                word.erase(word.length() - 1);
+            }
+
+        } else {
+            fonded_strings_data->push_back(word);
+//            std::cout << word << "\n";
+
+            node_stack.pop();
+            word.erase(word.length() - 1);
         }
 
-        if (current_index == str.length()) {break;}
+        current_node->makeVisited();
+
     }
 
-    return current_node;
-}
 
+    return fonded_strings_data;
 
-void CommandTrie::__getSimple(std::string str, std::shared_ptr<TrieNode> node, std::vector<std::string>* lst)
-{
-    str += node->getValue();
-
-    if (node->getChilds().size() == 0)
-    {
-        lst->push_back(str);
-        return;
-    }
-
-    for (auto item : node->getChilds())
-    {
-        __getSimple(str, item, lst);
-    }
-}
-
-
-std::vector<std::string>* CommandTrie::getSimple(std::string str)
-{
-    __current_word += str;
-
-    std::vector<std::string>* simpleStrings = new std::vector<std::string>;
-    std::shared_ptr<TrieNode> current_node = this->__getLastChild(str);
-
-    if (current_node->getChilds().size() == 0)
-    {
-        simpleStrings->push_back(str);
-        return simpleStrings;
-    }
-
-    for (auto item : current_node->getChilds())
-    {
-        this->__getSimple(str, item, simpleStrings);
-    }
-
-    return simpleStrings;
 }
