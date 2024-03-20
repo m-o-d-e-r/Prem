@@ -3,10 +3,10 @@
 
 #include "main_cycle.h"
 #include "../interface/WindowContainer.h"
-#include "../core/PremStructs/Trie.h"
+//#include "../core/PremStructs/Trie.h"
 #include "../core/help_functions.h"
-#include "../core/state_machine.h"
-#include "../core/dict_reader.h"
+//#include "../core/state_machine.h"
+//#include "../core/dict_reader.h"
 
 
 #define PREM_KEY_ENTER 13
@@ -17,10 +17,10 @@
 
 void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 {
-    StateMachine stateMachine;
+    //StateMachine stateMachine;
 
-    DictReader dictReader(__config->getDictPath(), "vsftpd"); // TODO: 
-    dictReader.read_dict();
+    /*DictReader dictReader(__config->getDictPath(), "vsftpd"); // TODO: 
+    dictReader.read_dict();*/
 
     initscr();
     raw();
@@ -32,7 +32,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
     BufferedWindow win(
         {
-            COLS * 0.7 - 1,
+            COLS, // COLS * 0.7 - 1,
             LINES,
             2,
             1
@@ -42,7 +42,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
 
 
-    CommandTrie commandStorage;
+    /*CommandTrie commandStorage;
     for (auto item : *dictReader.get_dict_data())
     {
         commandStorage.insert(item);
@@ -57,7 +57,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
         },
         nullptr,
         _SW_Vector_Policy::VERTICAL
-    );
+    );*/
 
 
 
@@ -93,16 +93,16 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
             case KEY_BACKSPACE:
                 win.deleteBefore();
-                keyBarWindow.updateStorage(
+                /*keyBarWindow.updateStorage(
                     &commandStorage.find(win.getCurrentWord())
-                );
+                );*/
                 break;
 
             case KEY_DC:
                 win.deleteCurrentChar();
-                keyBarWindow.updateStorage(
+                /*keyBarWindow.updateStorage(
                     &commandStorage.find(win.getCurrentWord())
-                );
+                );*/
                 break;
 
             case PREM_KEY_CTRL('q'):
@@ -137,11 +137,13 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 break;
             }
 
-            case PREM_KEY_ESC:
+            /*case PREM_KEY_ESC:
                 stateMachine.set_default_state();
-                break;
+                break;*/
 
             default:
+
+
                 /*if (static_cast<char>(*input) == ' ')
                 {
                     stateMachine.set_default_state();
@@ -150,7 +152,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                 }*/
 
                 win.modifyBuffer(input);
-                keyBarWindow.updateStorage(&commandStorage.find(win.getCurrentWord()));
+                /*keyBarWindow.updateStorage(&commandStorage.find(win.getCurrentWord()));*/
                 break;
 
         }

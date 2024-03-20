@@ -7,5 +7,7 @@ build
 .ninja_log
 cmake_install.cmake
 CMakeCache.txt
-
+CMakeLists.txt
 test*.py
+
+build.ninja

@@ -24,8 +24,8 @@ add_executable(prem
 
     src/core/help_functions.cpp
 
-    src/core/state_machine.cpp
-    src/core/dict_reader.cpp
+#    src/core/state_machine.cpp
+#    src/core/dict_reader.cpp
 
     src/libs/clipboard/src/clipboard_x11.c
     src/libs/clipboard/src/clipboard_common.c
@@ -51,7 +51,8 @@ find_package(fmt CONFIG REQUIRED)
 target_link_libraries(prem fmt::fmt-header-only)  
 
 
-target_link_libraries(prem ${CMAKE_SOURCE_DIR}/src/libs/clipboard/libclipboard.so)
+#target_link_libraries(prem ${CMAKE_SOURCE_DIR}/src/libs/clipboard/libclipboard.so)
+target_link_libraries(prem ${CMAKE_SOURCE_DIR}/bin/libclipboard.so)
 
 
 set(EXECUTABLE_OUTPUT_PATH "bin")
