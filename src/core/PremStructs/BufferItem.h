@@ -12,19 +12,23 @@ class UnicodeBufferItem;
 class ASCIIBufferItem;
 
 #ifdef PREM_USE_UNICODE_BUFFER
-    typedef UnicodeBufferItem __BufferItem;
+    #define __PremChar wchar_t
+
+    #define __BufferItem UnicodeBufferItem
     #define __add_item_to_window(win, y, x, char_value) (mvwadd_wch(win, y, x, char_value))
 
 #else
-    typedef ASCIIBufferItem __BufferItem;
-    #define __add_item_to_window(win, y, x, char_value) (mvwaddch(win, y, x, *char_value))
+    #define __PremChar char
+
+    #define __BufferItem ASCIIBufferItem
+    #define __add_item_to_window(win, y, x, char_value) (mvwaddch(win, y, x, char_value))
 
 #endif
 
 
 
 char __get_buffer_item_data(int int_ch);
-cchar_t __get_buffer_item_data(wint_t uint_ch);
+wchar_t __get_buffer_item_data(wint_t uint_ch);
 
 
 
@@ -38,7 +42,7 @@ public:
     BaseBufferItem() = delete;
     BaseBufferItem(ItemIntegerType);
 
-    ItemType* getItemData();
+    ItemType& getItemData();
 
 };
 
@@ -51,9 +55,9 @@ BaseBufferItem<ItemType, ItemIntegerType>::BaseBufferItem(ItemIntegerType i_valu
 
 
 template <typename ItemType, typename ItemIntegerType>
-ItemType* BaseBufferItem<ItemType, ItemIntegerType>::getItemData()
+ItemType& BaseBufferItem<ItemType, ItemIntegerType>::getItemData()
 {
-    return &this->data;
+    return this->data;
 }
 
 
@@ -67,7 +71,7 @@ public:
 };
 
 
-class UnicodeBufferItem: public BaseBufferItem<cchar_t, wint_t>
+class UnicodeBufferItem: public BaseBufferItem<wchar_t, wint_t>
 {
 public:
     UnicodeBufferItem() = delete;

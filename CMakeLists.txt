@@ -11,6 +11,7 @@ add_executable(prem
 
     src/interface/BaseWindow.cpp
     src/interface/BufferedWindow.cpp
+    src/interface/SimpleWindow.cpp
     src/interface/WindowContainer.cpp
 
     src/core/args_preprocessor.cpp

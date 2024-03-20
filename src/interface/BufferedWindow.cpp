@@ -9,6 +9,7 @@
 
 #include <gtk/gtk.h>
 
+#include "../core/help_functions.h"
 #include "BufferedWindow.h"
 
 #define PREM_SPECIAL_SYMBOL L' '
@@ -244,7 +245,7 @@ void BufferedWindow::insertLine()
             delete (*this->buffer[newLineIndex])[i];
 
         (*this->buffer[newLineIndex])[i] = new __BufferItem(
-            (*this->buffer[newLineIndex - 1])[i + this->currentX]->getItemData()->chars[0]
+            (*this->buffer[newLineIndex - 1])[i + this->currentX]->getItemData()//->chars[0]
         );
     }
 
@@ -307,7 +308,7 @@ void BufferedWindow::deleteBefore()
         {
             this->buffer[__buffer_y - 1]->push_back(
                 new __BufferItem(
-                    (*this->buffer[__buffer_y])[i]->getItemData()->chars[0]
+                    (*this->buffer[__buffer_y])[i]->getItemData()//->chars[0]
                 )
             );
 
@@ -357,7 +358,7 @@ void BufferedWindow::deleteCurrentChar()
         {
             this->buffer[__buffer_y]->push_back(
                 new __BufferItem(
-                    (*this->buffer[__buffer_y + 1])[i]->getItemData()->chars[0]
+                    (*this->buffer[__buffer_y + 1])[i]->getItemData()//->chars[0]
                 )
             );
             delete (*this->buffer[__buffer_y + 1])[i];
@@ -400,7 +401,64 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 }
 
 
-void BufferedWindow::copyFromBuffer() {}
+void BufferedWindow::copyFromBuffer()
+{
+    // fucking fuck...
+
+    /*int left_border  = __buffer_x;
+    int right_border = __buffer_x;
+    short done = 0;
+
+    while (true)
+    {
+        if (done >= 2)
+            break;
+
+
+        if (
+            left_border > 0 &&
+            (*this->buffer[__buffer_y])[left_border - 1]->getItemData()->chars[0] != ' '
+        )
+        {
+            left_border--;
+        } else {
+            done++;
+        }
+
+        if (
+            right_border < this->buffer[__buffer_y]->size() - 1 &&
+            (*this->buffer[__buffer_y])[right_border + 1]->getItemData()->chars[0] != ' '
+        )
+        {
+            right_border++;
+        } else {
+            done++;
+        }
+
+    }*/
+
+/*
+    std::vector<wchar_t> __text_buffer;
+
+    for (int i = left_border; i < right_border; i++)
+    {
+        __text_buffer.push_back(
+            (*this->buffer[__buffer_y])[i]->getItemData()->chars[0]
+        );
+
+    }*/
+
+    /*gtk_init(0, 0);
+
+    GtkClipboard* clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+
+    gchar* text = "Hello, ф or \u0444!\n";
+
+    gtk_clipboard_set_text(clip, text, strlen(text));*/
+
+//    gtk_clipboard_set_text(clip, (char*)text_buffer, copy_data_length);
+
+}
 
 
 void BufferedWindow::pasteToBuffer()
@@ -485,11 +543,30 @@ void BufferedWindow::__from_buffer_to_window()
             if (this->currentViewX + n >= this->buffer[this->currentViewY + i]->size())
                 break;
 
-            __add_item_to_window(
-                this->window,
-                i, n,
-                (*this->buffer[this->currentViewY + i])[this->currentViewX + n]->getItemData()
-            );
+
+            #ifdef PREM_USE_UNICODE_BUFFER
+                cchar_t cchar_data;
+
+                cchar_data.attr = 0;
+                cchar_data.chars[0] = (*this->buffer[this->currentViewY + i])[this->currentViewX + n]->getItemData();
+                cchar_data.chars[1] = L'\0';
+
+                __add_item_to_window(
+                    this->window,
+                    i, n,
+                    &cchar_data
+                );
+
+            #else
+                __add_item_to_window(
+                    this->window,
+                    i, n,
+                    (*this->buffer[this->currentViewY + i])[this->currentViewX + n]->getItemData()
+                );
+
+            #endif
+
+
         }
     }
     wmove(this->window, this->currentY, this->currentX);
@@ -557,7 +634,7 @@ bool BufferedWindow::__from_buffer_to_file()
         {
             for (int n = 0; n < this->buffer[i]->size(); n++)
             {
-                line += (*this->buffer[i])[n]->getItemData()->chars[0];
+                line += (*this->buffer[i])[n]->getItemData();//->chars[0];
             }
             file << line << "\n";
 
