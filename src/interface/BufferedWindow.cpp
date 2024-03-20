@@ -126,12 +126,34 @@ void BufferedWindow::doScroll(int dY)
                 this->currentY += -dY;
         }
 
-        this->currentY += dY;
 
-        while (this->currentX > this->buffer[this->currentY + this->currentViewY]->size())
+        int currentLine = this->currentY + this->currentViewY;
+
+
+        if (this->buffer[currentLine + dY]->size() < this->width)
         {
-            this->currentX--;            
+            this->currentViewX = 0;
+
+            while (this->currentX > this->buffer[currentLine + dY]->size())
+            {
+                this->currentX--;
+            }
+
         }
+        else if (this->buffer[currentLine + dY]->size() >= this->width && this->currentViewX != 0)
+        {
+
+            if (
+//                (this->buffer[currentLine]->size() > this->buffer[currentLine + dY]->size()) &&
+                (this->currentViewX + this->currentX > this->buffer[currentLine + dY]->size())
+            )
+            {
+                this->currentX -= this->buffer[currentLine]->size() - this->buffer[currentLine + dY]->size();
+            }
+
+        }
+
+        this->currentY += dY;
 
         __from_buffer_to_window();
     }
