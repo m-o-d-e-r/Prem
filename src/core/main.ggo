@@ -1,0 +1,12 @@
+
+version "0.1.0 | args analyzer 1.0.1"
+package "prem"
+purpose "Telegram: @M_O_D_E_R"
+
+# Options
+option "file"    f "Path to file"               string optional
+option "install" i "Path to dict to install it" string optional
+option "remove"  r "Path to dict to remove it"  string optional
+
+#       long     short     description           type   
+

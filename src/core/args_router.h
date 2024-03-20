@@ -1,30 +1,7 @@
 
 #include <string>
-#include <tuple>
-#include <map>
 
-
-typedef std::tuple<std::string, std::string, bool, bool, std::string> __OptionRule;
-
-
-
-class Option
-{
-private:
-    __OptionRule* __rule;
-
-public:
-    Option() = delete;
-    Option(__OptionRule*);
-    ~Option();
-
-    std::string getShort();
-    std::string getLong();
-    bool getStatus();
-    bool isBool();
-    std::string getDescription();
-
-};
+#include "cmdline.h"
 
 
 
@@ -33,12 +10,12 @@ public:
 class ArgsRouter
 {
 private:
-    std::map<std::string, Option*> __args_map;
+    gengetopt_args_info* args_info;
 
 public:
-    ArgsRouter();
-    ~ArgsRouter();
+    ArgsRouter() = delete;
+    ArgsRouter(gengetopt_args_info* );
 
-
+    void run();
 
 };

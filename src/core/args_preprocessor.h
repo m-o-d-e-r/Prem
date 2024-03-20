@@ -2,23 +2,22 @@
 #include <map>
 #include <string>
 
+#include "cmdline.h"
+
 
 class ArgsPreprocessor
 {
 private:
-    std::map<std::string, std::string> __args_map;
-
-    int argc;
-    char** argv;
+    gengetopt_args_info* args_info;
 
 public:
     ArgsPreprocessor();
-    ArgsPreprocessor(int, char**);
+    ~ArgsPreprocessor();
 
-    int parse();
+    void parse(int argc, char** argv);
     void __show_args_map();
 
-    std::map<std::string, std::string> getArgs();
+    gengetopt_args_info* getArgsTable();
 
 };
 
