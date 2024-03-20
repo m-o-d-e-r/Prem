@@ -1,3 +1,0 @@
-/mnt/d/pyrus/PreM/CMakeFiles/prem.dir
-/mnt/d/pyrus/PreM/CMakeFiles/edit_cache.dir
-/mnt/d/pyrus/PreM/CMakeFiles/rebuild_cache.dir
