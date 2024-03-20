@@ -59,11 +59,11 @@ void ArgsRouter::run()
             "\n  -r          Remove dict by name"
             "\n  -V          Show program version"
             "\n  -h          Show help text"
-            "\n  -g          Make global config"
+            //"\n  -g          Make global config"
             "\n\n"
         );
 
-    }
+    }/*
     else if (this->args_info->mapCounter['g'])
     {
         char* __folder_name = "/.prem";
@@ -88,10 +88,6 @@ void ArgsRouter::run()
         } else {
             fmt::print(fg(fmt::color::orange_red), "\tUnable to create {} folder\n\n", homedir);
         }
-
-
-
-
-    }
+    }*/
 
 }
