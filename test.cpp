@@ -14,12 +14,15 @@
 #include "src/core/PremStructs/BufferItem.h"
 
 
-
+//#include "src/core/config_reader.h"
 
 
 
 int main()
 {
+//    ConfigReader config;
+
+
     setlocale(LC_ALL, "");
 
     initscr();
@@ -86,72 +89,9 @@ int main()
     }
 
 
-//    BaseWindow* window = new BufferedWindow(20, 10);
-
-   /* initscr();
-    cbreak();
-    noecho();
-    nonl();
-    refresh();
-
-    int viewPort = 10;
-    WINDOW* mainWin = newwin(viewPort, 4, 0, 0);
-    keypad(mainWin, TRUE);
-
-    int currentY = 0;
-
-
-    int len_ = 20;
-    char b[len_][4] = {
-        {'1', '1', '2', '3'},
-        {'2', 'b', 'c', 'd'},
-        {'3', 'b', 'c', 'd'},
-        {'4', 'b', 'c', '1'},
-        {'5', 'b', 'c', 'd'},
-        {'6', 'b', 'c', 'd'},
-        {'7', 'b', 'c', 'd'},
-        {'8', 'b', 'c', '1'},
-        {'9', 'b', 'c', 'd'},
-        {'a', 'b', 'c', 'd'},
-        {'b', 'b', 'c', 'd'},
-        {'c', 'b', 'c', '1'},
-        {'d', 'b', 'c', 'd'},
-        {'e', 'b', 'c', 'd'},
-        {'f', 'b', 'c', 'd'},
-        {'g', 'b', 'c', '1'}
-    };
-
-
-    from_buffer_to_window(b, mainWin, currentY);
-    wrefresh(mainWin);
-
-
-    int input;
-
-    wmove(mainWin, currentY, 0);
-    while (true)
-    {
-        input = wgetch(mainWin);
-
-        switch (input)
-        {
-            case KEY_UP:
-                currentY--;
-                break;
-
-            case KEY_DOWN:
-                currentY++;
-                break;
-        }
-    
-        from_buffer_to_window(b, mainWin, currentY);
-        wrefresh(mainWin);
-    }
-
-
-
-    getch();*/
-
     return 0;
 }
 
+/*
+g++ -o test test.cpp src/core/PremStructs/BufferItem.cpp src/interface/BaseWindow.cpp src/interface/BufferedWindow.cpp  -lncursesw
+*/

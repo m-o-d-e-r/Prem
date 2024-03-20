@@ -142,78 +142,69 @@ void BufferedWindow::doScroll(int dY)
 void BufferedWindow::moveHorizontal(int dX)
 {
 
-    /*int lineIndex = this->currentViewY + this->currentY;
-    int columns_count = this->buffer[lineIndex]->size();
-*/
-
-    /*if (
-        (this->currentX + dX >= 0) &&
-        (this->currentX + dX < columns_count)
-    )
-    {
-        if (
-            (this->currentX + dX == 0) ||
-            (this->currentX + dX == columns_count - 1)
-        )
-        {
-            if (
-                (this->currentViewX + dX >= 0) &&
-                (this->currentViewX + dX + columns_count <= this->buffer.size())
-            )
-            {
-                this->currentViewX += dX;
-            }
-
-            if (
-                (this->currentViewX != 0) &&
-                (this->currentViewX + columns_count != this->buffer.size())
-            )
-                this->currentX += -dX;
-        }
-
-        this->currentX += dX;
-
-        /*while (this->currentX > this->buffer[this->currentY + this->currentViewY]->size())
-        {
-            this->currentX--;            
-        }*/
-
-       // __from_buffer_to_window();
-//    }*/
-
-
-
-
     int lineIndex = this->currentViewY + this->currentY;
 
 
-    if (this->currentX + dX < 0) // move left (do scroll)
+
+    int columns_count;
+    bool is_extended_row = false;
+    if (this->buffer[lineIndex]->size() >= this->width)
     {
-        if (lineIndex - 1 >= 0)
+        is_extended_row = true;
+        columns_count = this->width;
+    } else {
+        columns_count = this->buffer[lineIndex]->size();
+    }
+
+
+
+    this->currentX += dX;
+
+
+    if (this->currentX < 0)
+    {
+        if (lineIndex > 0)
         {
-            this->currentX = this->buffer[lineIndex - 1]->size();
+            if (this->buffer[lineIndex - 1]->size() > this->width)
+            {
+                this->currentViewX = this->buffer[lineIndex - 1]->size() - this->width + 1;
+                this->currentX = this->width - 1;
+            } else {
+                this->currentViewX = 0;
+                this->currentX = this->buffer[lineIndex - 1]->size();
+            }
+
+        } else {
+            this->currentX = 0;
         }
 
-        if (this->currentY == 1 && this->currentViewY != 0)
-        {
-            this->doScroll(-1);
-        }
-        else if (lineIndex - 1 >= 0)
-        {
-            this->currentY--;
-        }
+        this->doScroll(-1);
 
-    } else if (this->currentX + dX > this->buffer[lineIndex]->size()) // move right (do scroll)
+    } else if (this->currentX + this->currentViewX > this->buffer[lineIndex]->size())
     {
         this->doScroll(1);
         this->currentX = 0;
 
-    } else { // move to left/right
-        this->currentX += dX;
+        this->currentViewX = 0;
+    } else {
+
+        if (this->currentX == this->width - 2 && dX == 1)
+        {
+            this->currentViewX++;
+            this->currentX--;
+
+        } else if (this->currentX == 0 && this->currentViewX > 0)
+        {
+            this->currentViewX--;
+            this->currentX++;
+        }
+
     }
 
-    wmove(this->window, this->currentY, this->currentX);
-    this->update();
+
+
+    __from_buffer_to_window();
+
 }
 
 
@@ -409,20 +400,22 @@ void BufferedWindow::__from_buffer_to_window()
 
     for (int i = 0; i < rows_count; i++)
     {
-        if (this->buffer[i]->size() > this->width)
+        if (this->buffer[this->currentViewY + i]->size() >= this->width)
         {
             columns_count = this->width;
         } else {
             columns_count = this->buffer[this->currentViewY + i]->size();
         }
 
-
         for (int n = 0; n < columns_count; n++)
         {
+            if (this->currentViewX + n >= this->buffer[this->currentViewY + i]->size())
+                break;
+
             __add_item_to_window(
                 this->window,
                 i, n,
-                (*this->buffer[this->currentViewY + i])[n]->getItemData()
+                (*this->buffer[this->currentViewY + i])[this->currentViewX + n]->getItemData()
             );
         }
     }
