@@ -129,8 +129,6 @@ std::vector<std::string>* CommandTrie::getSimple(std::string str)
 {
     __current_word += str;
 
-
-
     std::vector<std::string>* simpleStrings = new std::vector<std::string>;
     TrieNode* current_node = this->__getLastChild(str);
 
@@ -144,8 +142,6 @@ std::vector<std::string>* CommandTrie::getSimple(std::string str)
     {
         this->__getSimple(str, item, simpleStrings);
     }
-
-    delete current_node;
 
     return simpleStrings;
 }
