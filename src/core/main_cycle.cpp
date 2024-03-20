@@ -185,7 +185,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                     stateMachine.set_current_state(PremStates::SHOW_HINTS);
                 }*/
 
-                std::fstream file("/mnt/d/pyrus/PreM/view", std::ios::out);
+                /*std::fstream file("/mnt/d/pyrus/PreM/view", std::ios::out);
 
 
                 _StringContainer* t = &commandStorage.find(win.getCurrentWord());
@@ -196,7 +196,7 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
                     {
                         file << item << "\n";
                     }
-                }
+                }*/
 
 
                 win.modifyBuffer(input);
