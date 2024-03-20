@@ -17,6 +17,16 @@ BaseWindow::BaseWindow(WinSize size)
 }
 
 
+BaseWindow::BaseWindow(WinGeometry geometry)
+{
+    this->width    = std::get<0>(geometry);
+    this->height   = std::get<1>(geometry);
+    this->__win_dX = std::get<2>(geometry);
+    this->__win_dY = std::get<3>(geometry);
+}
+
+
+
 BaseWindow::~BaseWindow() {}
 
 

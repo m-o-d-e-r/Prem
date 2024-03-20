@@ -6,11 +6,18 @@
 SimpleWindow::SimpleWindow(int width, int height, _StringContainer* data, _SW_Vector_Policy policy)
     : BaseWindow(width, height)
 {
-    __width  = width;
-    __height = height;
     __data   = data;
     __policy = policy;
+    this->init();
+}
 
+
+SimpleWindow::SimpleWindow(WinGeometry geometry, _StringContainer* data, _SW_Vector_Policy policy)
+    : BaseWindow(geometry)
+{
+    __data   = data;
+    __policy = policy;
+    this->init();
 }
 
 
@@ -29,7 +36,7 @@ void SimpleWindow::update() {wrefresh(__window);}
 
 void SimpleWindow::init()
 {
-    __window = newwin(__height, __width, 0, 0);
+    __window = newwin(height, width, __win_dY, __win_dX);
 
     int row_line = 0;
     std::string tmp_string;
@@ -56,4 +63,10 @@ void SimpleWindow::init()
 
     this->update();
 
+}
+
+
+void SimpleWindow::updateStorage(_StringContainer* data)
+{
+    __data = data;
 }

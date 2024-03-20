@@ -8,6 +8,7 @@ add_executable(prem
     src/prem.cpp
 
     src/core/PremStructs/BufferItem.cpp
+    src/core/PremStructs/Trie.cpp
 
     src/interface/BaseWindow.cpp
     src/interface/BufferedWindow.cpp
@@ -22,6 +23,10 @@ add_executable(prem
     src/core/main_cycle.cpp
 
     src/core/help_functions.cpp
+
+
+    src/libs/clipboard/src/clipboard_x11.c
+    src/libs/clipboard/src/clipboard_common.c
 
     )
 
@@ -42,6 +47,9 @@ target_link_libraries(prem ${GTK3_LIBRARIES})
 
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(prem fmt::fmt-header-only)  
+
+
+target_link_libraries(prem ${CMAKE_SOURCE_DIR}/src/libs/clipboard/libclipboard.so)
 
 
 set(EXECUTABLE_OUTPUT_PATH "bin")

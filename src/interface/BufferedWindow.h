@@ -29,6 +29,7 @@ private:
 public:
     BufferedWindow() = delete;
     BufferedWindow(WinSize size, char* filename = nullptr);
+    BufferedWindow(WinGeometry geometry, char* filename = nullptr);
     BufferedWindow(int width, int height, char* filename = nullptr);
     ~BufferedWindow();
 
