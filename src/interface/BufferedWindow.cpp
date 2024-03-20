@@ -69,12 +69,9 @@ void BufferedWindow::init()
     {
         this->buffer[i] = new std::vector<__BufferItem*>(this->width);
     }
-//    this->bufferLineSize.resize(this->width);
 
     for (int i = 0; i < this->height; i++)
     {
-//        this->bufferLineSize[i] = this->width;
-
         for (int n = 0; n < this->width; n++)
         {
             (*this->buffer[i])[n] = new __BufferItem(PREM_SPECIAL_SYMBOL);
@@ -169,36 +166,29 @@ void BufferedWindow::doScroll(int dY)
 void BufferedWindow::moveHorizontal(int dX)
 {
 
-    int lineIndex = this->currentViewY + this->currentY;
-
-
-
     int columns_count;
     bool is_extended_row = false;
-    if (this->buffer[lineIndex]->size() >= this->width)
+    if (this->buffer[__buffer_y]->size() >= this->width)
     {
         is_extended_row = true;
         columns_count = this->width;
     } else {
-        columns_count = this->buffer[lineIndex]->size();
+        columns_count = this->buffer[__buffer_y]->size();
     }
-
-
 
     this->currentX += dX;
 
-
     if (this->currentX < 0)
     {
-        if (lineIndex > 0)
+        if (__buffer_y > 0)
         {
-            if (this->buffer[lineIndex - 1]->size() > this->width)
+            if (this->buffer[__buffer_y - 1]->size() > this->width)
             {
-                this->currentViewX = this->buffer[lineIndex - 1]->size() - this->width + 1;
-                this->currentX = this->width - 1;
+                this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 3;
+                this->currentX = this->width - 3;
             } else {
                 this->currentViewX = 0;
-                this->currentX = this->buffer[lineIndex - 1]->size();
+                this->currentX = this->buffer[__buffer_y - 1]->size();
             }
 
         } else {
@@ -207,7 +197,7 @@ void BufferedWindow::moveHorizontal(int dX)
 
         this->doScroll(-1);
 
-    } else if (this->currentX + this->currentViewX > this->buffer[lineIndex]->size())
+    } else if (this->currentX + this->currentViewX > this->buffer[__buffer_y]->size())
     {
         this->doScroll(1);
         this->currentX = 0;
@@ -285,56 +275,59 @@ void BufferedWindow::insertLine()
 
 void BufferedWindow::deleteBefore()
 {
-    int lineIndex = this->currentViewY + this->currentY;
 
-    if (lineIndex == 0 && this->currentX == 0)
+    // FIX:
+
+
+    if (__buffer_y== 0 && this->currentX == 0)
         return;
 
+
     this->currentX--;
+    __modify_buffer_coordinates();
+
     if (this->currentX >= 0)
     {
-        std::vector<__BufferItem*>::iterator rowIter = this->buffer[lineIndex]->begin();
+        std::vector<__BufferItem*>::iterator rowIter = this->buffer[__buffer_y]->begin();
 
-        delete (*this->buffer[lineIndex])[this->currentX + this->currentViewX];
-        (*this->buffer[lineIndex]).erase(rowIter + this->currentX + this->currentViewX);
+        delete (*this->buffer[__buffer_y])[__buffer_x];
+        (*this->buffer[__buffer_y]).erase(rowIter + __buffer_x);
 
     } else {
 
-        int tmp_size = this->buffer[lineIndex - 1]->size();
+        int tmp_size = this->buffer[__buffer_y - 1]->size();
 
-        for (int i = 0; i < this->buffer[lineIndex]->size(); i++)
+        for (int i = 0; i < this->buffer[__buffer_y]->size(); i++)
         {
-            this->buffer[lineIndex - 1]->push_back(
+            this->buffer[__buffer_y - 1]->push_back(
                 new __BufferItem(
-                    (*this->buffer[lineIndex])[i]->getItemData()->chars[0]
+                    (*this->buffer[__buffer_y])[i]->getItemData()->chars[0]
                 )
             );
 
-            delete (*this->buffer[lineIndex])[i];
+            delete (*this->buffer[__buffer_y])[i];
         }
 
         std::vector<std::vector<__BufferItem*>*>::iterator currLineIter = this->buffer.begin();
 
-        delete this->buffer[lineIndex];
-        this->buffer.erase(currLineIter + lineIndex);
+        delete this->buffer[__buffer_y];
+        this->buffer.erase(currLineIter + __buffer_y);
 
         if (this->currentViewY != 0)
             this->currentViewY--;
         else
             this->currentY--;
 
-        this->moveHorizontal(tmp_size + 1);
+
+
+        if (tmp_size < this->width)
+            this->moveHorizontal(tmp_size + 1);
+        else {
+            this->currentViewX = this->buffer[__buffer_y - 1]->size() - this->width + 3;
+            this->currentX = this->width - 3;
+        }
 
     }
-
-
-    /*if (this->currentViewX != 0 && this->currentX <= 7)
-    {
-        this->currentViewX--;
-        this->currentX++;
-    }*/
-
-
 
     __from_buffer_to_window();
 }
@@ -343,7 +336,7 @@ void BufferedWindow::deleteBefore()
 void BufferedWindow::deleteCurrentChar()
 {
 
-    if (this->currentX != this->buffer[__buffer_y]->size())
+    if (__buffer_x != this->buffer[__buffer_y]->size())
     {
         std::vector<__BufferItem*>::iterator rowIter = this->buffer[__buffer_y]->begin();
 
@@ -361,7 +354,6 @@ void BufferedWindow::deleteCurrentChar()
                     (*this->buffer[__buffer_y + 1])[i]->getItemData()->chars[0]
                 )
             );
-
             delete (*this->buffer[__buffer_y + 1])[i];
         }
 
@@ -371,7 +363,6 @@ void BufferedWindow::deleteCurrentChar()
 
         delete this->buffer[__buffer_y + 1];
         this->buffer.erase(currLineIter);
-
 
         if (this->currentViewY != 0)
         {
@@ -391,23 +382,13 @@ void BufferedWindow::modifyBuffer(wint_t* character)
 {
     // call when user modifing the text
 
-    int lineIndex = this->currentY + this->currentViewY;
-
-    std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[lineIndex]->begin();
-    this->buffer[lineIndex]->insert(
-        bufferLineIter + this->currentX + this->currentViewX,
+    std::vector<__BufferItem*>::iterator bufferLineIter = this->buffer[__buffer_y]->begin();
+    this->buffer[__buffer_y]->insert(
+        bufferLineIter + __buffer_x,
         new __BufferItem(*character)
     );
 
-
-    if (this->buffer[lineIndex]->size() < this->width || this->currentViewX == 0)
-    {
-        this->currentX++;
-    }
-    else if (this->currentViewX != 0)
-    {
-        this->currentViewX++;
-    }
+    moveHorizontal(1);
 
     __from_buffer_to_window();
 }
