@@ -1,11 +1,11 @@
 
 ### Як зібрати під Debian
 
-1) Встановлення cmake якщо його немає на вашому комп'ютері:
+1) Встановлення `cmake` якщо його немає на вашому комп'ютері:
 ```bash
 sudo apt install cmake
 ```
-2) Встановлення ninja:
+2) Встановлення `ninja`:
 ```bash
 sudo apt install ninja-build
 ```
@@ -13,7 +13,7 @@ sudo apt install ninja-build
 ```bash
 sudo apt install libfmt-dev
 ```
-4) GTK3 потрібен для використання буферів обміну:
+4) `GTK3` потрібен для використання буферів обміну:
 ```bash
 sudo apt install libgtk-3-dev
 ```
