@@ -18,5 +18,7 @@ public:
     int parse();
     void __show_args_map();
 
+    std::map<std::string, std::string> getArgs();
+
 };
 
