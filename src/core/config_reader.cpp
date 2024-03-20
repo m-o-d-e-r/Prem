@@ -92,7 +92,7 @@ ConfigReader::ConfigReader()
 
         print_message(
             fmt::format(
-                "\t[-] prem base folder was created\n"
+                "\t[+] prem base folder was created\n"
             ).c_str(),
             MessageType::COMPLETED
         );
