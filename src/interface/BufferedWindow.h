@@ -3,6 +3,7 @@
 #define _BUFFERED_WINDOW_H_
 
 #include <vector>
+#include <string>
 
 #include "BaseWindow.h"
 
@@ -25,6 +26,8 @@ private:
 
     int currentX = 0;
     int currentY = 0;
+
+    std::string __current_word;
 
 public:
     BufferedWindow() = delete;
@@ -51,7 +54,11 @@ public:
     void undo();
     void redo();
 
+    std::string getCurrentWord();
+
 private:
+    void __find_current_word();
+
     void __modify_buffer_coordinates();
 
     void __from_buffer_to_window();

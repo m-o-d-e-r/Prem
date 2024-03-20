@@ -75,4 +75,5 @@ void SimpleWindow::init()
 void SimpleWindow::updateStorage(_StringContainer* data)
 {
     __data = data;
+    this->init();
 }

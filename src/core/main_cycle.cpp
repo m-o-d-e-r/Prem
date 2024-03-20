@@ -126,14 +126,20 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
             case KEY_BACKSPACE:
                 win.deleteBefore();
+                keyBarWindow.updateStorage(
+                    commandStorage.find(win.getCurrentWord())
+                );
                 break;
 
             case KEY_DC:
                 win.deleteCurrentChar();
+                keyBarWindow.updateStorage(
+                    commandStorage.find(win.getCurrentWord())
+                );
                 break;
 
             case PREM_KEY_CTRL('q'):
-                run=false;
+                run = false;
                 break;
 
             case PREM_KEY_CTRL('s'):
@@ -150,17 +156,9 @@ void premGeneralLifeCycle(ConfigReader* __config, char* __file_name)
 
             default:
                 win.modifyBuffer(input);
-
-                // TODO:
-                // !!! do not touch
-
-                /*std::string str;
-                str += static_cast<char>(*input);
                 keyBarWindow.updateStorage(
-                    commandStorage.find("R")
+                    commandStorage.find(win.getCurrentWord())
                 );
-                keyBarWindow.init();*/
-
                 break;
 
         }
