@@ -35,6 +35,7 @@ bool _is_file_exist(char*);
 bool _is_file_exist(const char*);
 
 void _create_folder(char*);
+void _create_file(char*);
 
 bool _copy_folder(char*, char*);
 

@@ -12,7 +12,7 @@
 #include "../core/help_functions.h"
 #include "BufferedWindow.h"
 
-#define PREM_SPECIAL_SYMBOL L' '
+#define PREM_SPECIAL_SYMBOL L'@'
 
 
 
@@ -87,11 +87,14 @@ void BufferedWindow::init()
     // read data from specified file
     if (this->filename)
     {
-        this->__from_file_to_buffer();
-    } else {
-        // TODO: raise error
+        if (!_is_file_exist(this->filename))
+            _create_file(this->filename);
 
-        this->__from_buffer_to_window();
+        this->__from_file_to_buffer();
+
+    } else {
+        
+//        this->__from_buffer_to_window();
     }
 
 }
@@ -527,6 +530,12 @@ void BufferedWindow::redo() {}
 std::string BufferedWindow::getCurrentWord() {return __current_word;}
 
 
+void BufferedWindow::doAutocomplete()
+{
+
+}
+
+
 void BufferedWindow::__find_current_word()
 {
     int word_start_pos = __buffer_x;
@@ -602,7 +611,7 @@ void BufferedWindow::__from_buffer_to_window()
     // read data from the buffer and add character to new position after moving
 
     // clear the window
-    for (int i = 0; i < this->height; i++)
+    for (int i = 0; i < this->buffer.size(); i++)
     {
         for (int n = 0; n < this->width; n++)
         {

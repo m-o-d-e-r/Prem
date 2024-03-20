@@ -43,7 +43,17 @@ void SimpleWindow::init()
 
 
     if (!__data)
+    {
+        for (int i = 0; i < this->height; i++)
+        {
+            for (int n = 0; n < this->width; n++)
+            {
+                mvwaddch(__window, i, n, ' ');
+            }
+        }
+        this->update();
         return;
+    }
 
 
     for (auto item : *__data)
